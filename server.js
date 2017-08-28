@@ -16,7 +16,7 @@ server.use('/api', require('./routes/api'));
  */
 server.use('/admin', express.static(path.join(__dirname, 'admin'), { index: 'default.html' }));
 
-const webpath = path.join(__dirname, 'client'); 
+const webpath = path.join(__dirname, 'admin'); 
 server.use('/', express.static(webpath, { index: 'default.html' }));
 
 module.exports = server;
