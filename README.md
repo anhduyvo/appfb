@@ -1,4 +1,1 @@
-# appfb
-app facebook & login api
-- npm install
-- node app
+api-facebook: api connected to facebook
