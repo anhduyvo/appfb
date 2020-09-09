@@ -1,2 +1,4 @@
-#demo-motorbike: 
-- demo-motorbike
+#demo-eshop: 
+- angularjs
+- nodejs
+- mssql
