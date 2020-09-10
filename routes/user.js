@@ -137,5 +137,4 @@ router.post('/update', auth.checkAuthentication(), async function (req, res, nex
     }
 });
 
-// Export
 module.exports = router;
