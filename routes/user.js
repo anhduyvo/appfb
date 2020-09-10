@@ -85,8 +85,8 @@ router.post('/create', auth.checkAuthentication(), async function (req, res, nex
 	try
     {
         let user = _.pick(req.body, ['UserName','Password','DisplayName','ImageKey','Email','Mobile','Tel','Title','DateOfBirth','Description']);
-        if(!user.UserName)
-            throw { code: 'MISSING_REQUIRED_FIELD', message: 'missing required field: UserName' }
+        if(!user.UserName || !user.Password)
+            throw { code: 'MISSING_REQUIRED_FIELD', message: 'missing required field: UserName or Password' }
 
         // if(!user.Password)
         //     throw { code: 'MISSING_REQUIRED_FIELD', message: 'missing required field: Password' };
