@@ -1,1144 +1,1130 @@
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
---
--- Host: localhost    Database: estore
--- ------------------------------------------------------
+USE [eshop];
+GO
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
+SET ANSI_NULLS ON
+GO
 
-DROP SCHEMA IF EXISTS `estore` ;
-CREATE SCHEMA `estore` ;
-
-USE `estore`;
+SET QUOTED_IDENTIFIER ON
+GO
 
 --
 -- Table structure for table `Customer`
 --
-DROP TABLE IF EXISTS `Customer`;
-CREATE TABLE `Customer` (
-  `CustomerId` INT(11) NOT NULL AUTO_INCREMENT,
-  `CustomerKey` VARCHAR(50) NOT NULL,
-  `CustomerName` VARCHAR(50) NOT NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `Email` VARCHAR(50) DEFAULT NULL,  
-  `Tel` VARCHAR(50) DEFAULT NULL,
-  `Fax` VARCHAR(50) DEFAULT NULL,  
-  `Address` VARCHAR(250) DEFAULT NULL,
-  `Representative` VARCHAR(50) DEFAULT NULL,
-  `Title` VARCHAR(50) DEFAULT NULL,
-  `Mobile` VARCHAR(50) DEFAULT NULL,
-  `ImageKey` VARCHAR(250) DEFAULT NULL,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`CustomerId`),
-  UNIQUE KEY `CustomerId_UNIQUE` (`CustomerId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;	
+IF (EXISTS (
+      SELECT * 
+			FROM INFORMATION_SCHEMA.TABLES
+			WHERE TABLE_CATALOG='eshop' AND TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'Customer'
+    ))
+BEGIN
+	DROP TABLE [dbo].[Customer]
+END
+GO
 
---
--- Sample data for table `Customer`
---
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'The Bank of Tokyo and Mitsuibishi','37 Ton Duc Thang street, district 1','customer@customer.com','029876543210','SYSTEM','SYSTEM');
+BEGIN
+  CREATE TABLE [dbo].[Customer](
+		[CustomerId] [INT] IDENTITY(1,1) NOT NULL,
+		[CustomerKey] [nvarchar](50) NOT NULL,
+		[CustomerName] [nvarchar](50) NOT NULL,
+		[Description] [nvarchar](250) DEFAULT NULL,
+		[Email] [nvarchar](50) DEFAULT NULL,
+		[Mobile] [nvarchar](50) DEFAULT NULL,
+		[Tel] [nvarchar](50) DEFAULT NULL,
+		[Fax] [nvarchar](50) DEFAULT NULL,    
+		[Address] [nvarchar](250) DEFAULT NULL,
+		[Representative] [nvarchar](50) DEFAULT NULL,
+		[Title] [nvarchar](50) DEFAULT NULL,
+		[ImageKey] [nvarchar](250) DEFAULT NULL,
+		[Created] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Updated] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Author] [nvarchar](50) DEFAULT NULL,
+		[Editor] [nvarchar](50) DEFAULT NULL,	
+		[Deleted] [INT] DEFAULT 0
+	CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED
+	(
+		[CustomerId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]  
+END
+GO	
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'REE Corporation Group','458 Hung Vuong street, district 1','customer@customer.com','029876543210','SYSTEM','SYSTEM');
+-- Sample data
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'The Bank of Tokyo and Mitsuibishi', 'Manchester United', '1234567890', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'FPT Information System','37 Ton Duc Thang street, district 1','customer@customer.com','029876543210','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'REE Corporation Group', 'Manchester United', '9876543210', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'HAG Corporation Group','37 Ton Duc Thang street, district 1','customer@customer.com','029876543210','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'FPT Information System', 'Real Madrid', '1234567890', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'SMC Steel Company','37 Ton Duc Thang street, district 1','customer@customer.com','029876543210','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'HAG Corporation Group', 'Liverpool', '1234567890', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'Marubeni Itochu Steel Vietnam Co. Ltd.','37 Ton Duc Thang street, district 1','customer@customer.com','029876543210','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'SMC Steel Company', 'PSG', '1234567890', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'Northrop Grumman','157 Hong Ha street, district 1','customer@customer.com','029876543210','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Marubeni Itochu Steel Vietnam Co. Ltd.', 'PSG', '1234567890', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'Adnotrium','45 Nguyen Thi Minh Khai street, district 1','customer@customer.com','029876543210','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'IBM', 'IBM', '1234567890', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'SMC Steel Company','25 Ton That Tung street, district 1','customer@customer.com','029876543210','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'Marubeni Super Fast Food.','99 Ban Co street, district 3','customer@customer.com','08 801109934','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'North Carolina','142 Ton Duc Thang street, district 1','customer@customer.com','02 3664916215','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'Taobao Group','45 Nguyen Thi Minh Khai street, district 1','customer@customer.com','029876543210','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba', 'Alibaba', '1234567890', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'Kawasaki Corporation Group','145 Ho Tung Mau street, district 1','customer@customer.com','029888883210','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Trung Nguyen Coffee', '125 John Jose Avenue, Sai Gon city', '+86 1234567890', 'SYSTEM', 'SYSTEM')
 
-INSERT INTO `Customer` (`CustomerKey`,`CustomerName`,`Address`,`Email`,`Tel`,`Author`,`Editor`) 
-VALUES (uuid(),'Emirates Corporation Group','145 Ton That Tung street, district 1','customer@customer.com','029888883210','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Marubeni Itochu Steel Japan Co. Ltd.', 'Japan', '+45 1234567890', 'SYSTEM', 'SYSTEM')
 
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'IBM Corporation', '365 Seatle Finance Town, New York', '+01 5234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba', 'Alibaba', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Adnotrium', 'Adnotrium', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Marubeni Itochu Steel Vietnam Co. Ltd.', 'PSG', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'IBM', 'IBM', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba', 'Alibaba', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba VN', 'Alibaba VN', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Fast & Furious Ltd.', 'Fast & Furious', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'BMW', 'BMW', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba Europe', 'Alibaba Europe', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba North America', 'Alibaba North America', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Marubeni Itochu Steel Vietnam Co. Ltd.', 'PSG', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'IBM Quatro', 'IBM Quatro', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba', 'Alibaba', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Taobao', 'Taobao', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Marubeni Itochu Steel Vietnam Co. Ltd.', 'PSG', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'IBM', 'IBM', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba', 'Alibaba', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba', 'Alibaba', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Marubeni Itochu Steel Vietnam Co. Ltd.', 'PSG', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'IBM', 'IBM', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba', 'Alibaba', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba', 'Alibaba', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Marubeni Itochu Steel Vietnam Co. Ltd.', 'PSG', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'IBM', 'IBM', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba', 'Alibaba', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba', 'Alibaba', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Marubeni Itochu Steel Vietnam Co. Ltd.', 'PSG', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'IBM', 'IBM', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', '25 Avenue Seatle', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba', 'Alibaba', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Lipton Tea', '142 Phung Khac Khoan, District 3, Ho Chi Minh city', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Marubeni Itochu Steel Vietnam Co. Ltd.', 'PSG', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'IBM', 'IBM', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Infosys Technologies', 'Infosys Technologies', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba UK', 'Alibaba UK', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Sub Microsystems', 'PSG', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Cossack', 'Cossack', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Digital China Holdings', 'Digital China Holdings', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dimension Data', 'Dimension Data', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Wipro Limited.', 'Wipro Limited', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Google Asisa', 'Google Asisa', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Northrop Grumman', 'Northrop Grumman', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Hongleong Bank', 'Hongleong Bank', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Thomsons', 'Thomsons', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'CGI Group', 'CGI Group', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dell', 'Dell', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Amdocs', 'Amdocs', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Dimension Data', 'Dimension Data', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Wipro Hong Kong', 'Wipro Hong Kong', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Google Asisa', 'Google Asisa', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Trump Organization', 'Trump Organization', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft', 'Microsoft', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Hololens Asisa', 'Hololens Asisa', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'CSC Group', 'CSC Group', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Microsoft China', 'Microsoft China', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Hongleong Bank', 'Hongleong Bank', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Publicity Shin', 'Publicity Shin', '1234567890', 'SYSTEM', 'SYSTEM')
+
+INSERT INTO [dbo].[Customer] (CustomerKey, CustomerName, Address, Mobile, Author, Editor)
+VALUES (NEWID(), 'Alibaba in Turkey', 'Alibaba in Turkey', '1234567890', 'SYSTEM', 'SYSTEM')
+
+GO
 
 --
 -- Table structure for table `Truck`
 --
-DROP TABLE IF EXISTS `Truck`;
-CREATE TABLE `Truck` (
-  `TruckId` INT(11) NOT NULL AUTO_INCREMENT,
-  `TruckKey` VARCHAR(50) NOT NULL,
-  `TruckName` VARCHAR(50) NOT NULL,
-  `TruckNumber` VARCHAR(50) NOT NULL,
-  `ImageKey` VARCHAR(250) NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`TruckId`),
-  UNIQUE KEY `TruckId_UNIQUE` (`TruckId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+IF (EXISTS (
+      SELECT * 
+			FROM INFORMATION_SCHEMA.TABLES 
+			WHERE TABLE_CATALOG='eshop' AND TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'Truck'
+    ))
+BEGIN
+	DROP TABLE [dbo].[Truck]
+END
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - Land Cruiser', 'T-LAND-123456789', 'Land Cruiser 2015', 'SYSTEM', 'SYSTEM');
+BEGIN
+	CREATE TABLE [dbo].[Truck](
+		[TruckId] [int] IDENTITY(1,1) NOT NULL,
+		[TruckKey] [nvarchar](50) NOT NULL,
+		[TruckName] [nvarchar](50) NULL,
+		[TruckNumber] [nvarchar](50) NULL,
+		[ImageKey] [nvarchar](250) NULL,
+		[Description] [nvarchar](250) DEFAULT NULL,	
+		[Created] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Updated] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Author] [nvarchar](50) DEFAULT NULL,
+		[Editor] [nvarchar](50) DEFAULT NULL,
+		[Deleted] [INT] DEFAULT 0
+	CONSTRAINT [PK_Truck] PRIMARY KEY CLUSTERED 
+	(
+		[TruckId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+GO
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - Mercedez', 'T-MERC-123456789', 'Mercedez 2017', 'SYSTEM', 'SYSTEM');
+-- Sample data
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Land Cruiser', 'T-LAND-123456789', 'Land Cruiser 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - BMW', 'T-BMW-852741963', 'BMW 2015', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Mercedez', 'T-MERC-123456789', 'Mercedez 2017', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - MAX', 'T-MAX-852741963', 'Kawasaki 2015', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - BMW', 'T-BMW-852741963', 'BMW 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - EVEREST', 'T-EVEREST-852741963', 'Everest 2018', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - MAX', 'T-MAX-852741963', 'Kawasaki 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - HONGKONG', 'T-EVEREST-852741963', 'Everest 2018', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - EVEREST', 'T-EVEREST-852741963', 'Everest 2018', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - Land Cruiser', 'T-LAND-123456789', 'Land Cruiser 2015', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Honda Civic', 'CIVIC-123456789', 'Honda Civic 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - Mercedez', 'T-MERC-123456789', 'Mercedez 2017', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Mercedez', 'T-MERC-123456789', 'Mercedez 2017', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - BMW', 'T-BMW-852741963', 'BMW 2015', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - BMW', 'T-BMW-852741963', 'BMW 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - MAX', 'T-MAX-852741963', 'Kawasaki 2015', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - MAX', 'T-MAX-852741963', 'Kawasaki 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - EVEREST', 'T-EVEREST-852741963', 'Everest 2018', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - EVEREST', 'T-EVEREST-852741963', 'Everest 2018', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - HONGKONG', 'T-EVEREST-852741963', 'Everest 2018', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Land Cruiser', 'T-LAND-123456789', 'Land Cruiser 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - Land Cruiser', 'T-LAND-123456789', 'Land Cruiser 2015', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Mercedez', 'T-MERC-123456789', 'Mercedez 2017', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - Mercedez', 'T-MERC-123456789', 'Mercedez 2017', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - BMW', 'T-BMW-852741963', 'BMW 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - BMW', 'T-BMW-852741963', 'BMW 2015', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - MAX', 'T-MAX-852741963', 'Kawasaki 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - MAX', 'T-MAX-852741963', 'Kawasaki 2015', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - EVEREST', 'T-EVEREST-852741963', 'Everest 2018', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - ESCAPE', 'T-ESCAPE-852741963', 'ESCAPE 2018', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Land Cruiser', 'T-LAND-123456789', 'Land Cruiser 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Truck` (`TruckKey`, `TruckName`, `TruckNumber`, `Description`, `Author`, `Editor`) 
-VALUES (uuid(), 'TRUCK - FORD', 'T-FORD-852251963', 'FORD 2018', 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Mercedez', 'T-MERC-123456789', 'Mercedez 2017', 'SYSTEM', 'SYSTEM');
 
---
--- Table structure for table `Account`
---
-DROP TABLE IF EXISTS `Account`;
-CREATE TABLE `Account` (
-  `AccountId` INT(11) NOT NULL AUTO_INCREMENT,
-  `AccountKey` VARCHAR(50) NOT NULL,
-  `AccountNo` VARCHAR(20) NOT NULL,
-  `AccountName` VARCHAR(100) NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `DebitOrCredit` VARCHAR(2) DEFAULT NULL,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`AccountId`),
-  UNIQUE KEY `AccountId_UNIQUE` (`AccountId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - BMW', 'T-BMW-852741963', 'BMW 2015', 'SYSTEM', 'SYSTEM');
 
---
--- Sample data for table `Account`
---
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'111','Cash','DR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - MAX', 'T-MAX-852741963', 'Kawasaki 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'112','Cash in bank','DR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - EVEREST', 'T-EVEREST-852741963', 'Everest 2018', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'113','Cash transfer','DR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Land Cruiser', 'T-LAND-123456789', 'Land Cruiser 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'156','Goods','DR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Mercedez', 'T-MERC-123456789', 'Mercedez 2017', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'131','Account Receivable','CR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - BMW', 'T-BMW-852741963', 'BMW 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'211','Fixed Asset','DR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - MAX', 'T-MAX-852741963', 'Kawasaki 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'331','Account Payment','CR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - EVEREST', 'T-EVEREST-852741963', 'Everest 2018', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'511','Revenue','CR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Land Cruiser', 'T-LAND-123456789', 'Land Cruiser 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'632','Cost of Goods Sold','CR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Mercedez', 'T-MERC-123456789', 'Mercedez 2017', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'642','Selling Cost','CR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - FAST & FURIOUS', 'T-FAST-852741963', 'FAST & FURIOUS 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'711','711','CR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - MAX', 'T-MAX-852741963', 'Kawasaki 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'811','811','CR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - EVEREST', 'T-EVEREST-852741963', 'Everest 2018', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Account` (`AccountKey`,`AccountNo`,`AccountName`,`DebitOrCredit`,`Author`,`Editor`) 
-VALUES (uuid(),'911','911','CR','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Land Cruiser', 'T-LAND-123456789', 'Land Cruiser 2015', 'SYSTEM', 'SYSTEM');
 
---
--- Table structure for table `Transaction`
---
-DROP TABLE IF EXISTS `Transaction`;
-CREATE TABLE `Transaction` (
-  `TransactionId` INT(11) NOT NULL AUTO_INCREMENT,  
-  `TransactionKey` VARCHAR(50) NOT NULL,
-  `TransactionNo` VARCHAR(50) DEFAULT NULL,
-  `TransactionDate` DATETIME DEFAULT NULL,
-  `TransactionType` VARCHAR(20) NOT NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `DebitAcctNo` VARCHAR(20) NOT NULL,
-  `CreditAcctNo` VARCHAR(20) NOT NULL,
-  `Currency` VARCHAR(3) NOT NULL,
-  `TotalAmount` DECIMAL(12,4) NOT NULL DEFAULT 0,
-  `CustomerId` INT(11) DEFAULT 0,
-  `CustomerName` VARCHAR(50) DEFAULT NULL,
-  `InvoiceNo` VARCHAR(20) DEFAULT NULL,
-  `InvoiceDate` DATETIME DEFAULT NULL,
-  `InvoiceDesc` VARCHAR(250) DEFAULT NULL,  
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`TransactionId`),
-  UNIQUE KEY `TransactionId_UNIQUE` (`TransactionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - Mercedez', 'T-MERC-123456789', 'Mercedez 2017', 'SYSTEM', 'SYSTEM');
 
---
--- Sample data for table `Transaction`
---
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000001','2016-11-07','CASHIN','Cash In ', '111', '642', 'VND', 5000000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - BMW', 'T-BMW-852741963', 'BMW 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000002','2016-11-07','CASHIN','Cash In ', '111', '642', 'VND', 6000000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - MAX', 'T-MAX-852741963', 'Kawasaki 2015', 'SYSTEM', 'SYSTEM');
 
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000003','2016-11-07','CASHIN','Cash In ', '111', '531', 'USD', 800, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000004','2017-07-07','CASHIN','Cash In ', '111', '531', 'USD', 18000, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000005','2017-08-07','CASHIN','Cash In ', '111', '531', 'USD', 1250, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000006','2017-09-07','CASHIN','Cash In ', '111', '531', 'USD', 1250, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000007','2017-09-17','CASHIN','Cash In ', '111', '531', 'USD', 500, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000008','2017-09-17','CASHIN','Cash In ', '111', '531', 'USD', 500, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000009','2017-09-18','CASHIN','Cash In ', '111', '532', 'USD', 250, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000010','2017-10-08','CASHIN','Cash In ', '111', '531', 'USD', 55, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000011','2017-10-08','CASHIN','Cash In ', '111', '532', 'USD', 25, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000012','2017-10-10','CASHIN','Cash In ', '111', '531', 'USD', 650, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHIN-000013','2017-10-12','CASHIN','Cash In ', '111', '532', 'USD', 1150, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000001','2016-05-07','CASHOUT','Cash Out', '111', '642', 'VND', 1000000, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000002','2016-05-17','CASHOUT','Cash Out', '111', '642', 'VND', 2000000, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000003','2016-06-07','CASHOUT','Cash Out', '111', '532', 'USD', 500, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000004','2016-06-17','CASHOUT','Cash Out', '111', '631', 'USD', 1500, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000005','2016-07-23','CASHOUT','Cash Out', '111', '632', 'USD', 600, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000006','2016-07-27','CASHOUT','Cash Out', '111', '632', 'USD', 600, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000007','2016-08-07','CASHOUT','Cash Out', '111', '632', 'USD', 600, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000008','2016-08-07','CASHOUT','Cash Out', '111', '642', 'USD', 600, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000009','2016-09-07','CASHOUT','Cash Out', '111', '641', 'USD', 600, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000010','2016-09-07','CASHOUT','Cash Out', '111', '632', 'USD', 600, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000011','2016-10-18','CASHOUT','Cash Out', '111', '631', 'USD', 800, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000012','2016-10-17','CASHOUT','Cash Out', '111', '632', 'USD', 600, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000013','2016-10-27','CASHOUT','Cash Out', '111', '632', 'USD', 600, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000014','2016-11-03','CASHOUT','Cash Out', '111', '632', 'USD', 600, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000015','2016-11-04','CASHOUT','Cash Out', '111', '632', 'USD', 600, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000016','2016-11-05','CASHOUT','Cash Out', '111', '642', 'USD', 600, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Transaction`(TransactionKey, TransactionNo, TransactionDate, TransactionType, Description, DebitAcctNo, CreditAcctNo, Currency, TotalAmount, Author, Editor)
-VALUES (uuid(),'CASHOUT-000017','2016-11-07','CASHOUT','Cash Out', '111', '632', 'USD', 600, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Truck] (TruckKey, TruckName, TruckNumber, Description, Author, Editor)
+VALUES (NEWID(), 'TRUCK - FORD', 'T-FORD-852741963', 'FORD 2018', 'SYSTEM', 'SYSTEM');
 
 
 --
--- Table structure for table `Inventory`
+-- Table [dbo].[Brand]
 --
-DROP TABLE IF EXISTS `Inventory`;
-CREATE TABLE `Inventory` (
-  `InventoryId` INT(11) NOT NULL AUTO_INCREMENT,    
-  `InventoryKey` VARCHAR(50) DEFAULT NULL,
-  `InventoryName` VARCHAR(50) DEFAULT NULL,
-  `Location` VARCHAR(50) DEFAULT NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,  
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`InventoryId`),
-  UNIQUE KEY `InventoryId_UNIQUE` (`InventoryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+IF (EXISTS (SELECT * 
+			FROM INFORMATION_SCHEMA.TABLES 
+			WHERE TABLE_CATALOG='eshop' AND TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'Brand'))
+BEGIN
+	DROP TABLE [dbo].[Brand]
+END
+GO
 
+BEGIN
+	CREATE TABLE [dbo].[Brand](
+		[BrandId] [int] IDENTITY(1,1) NOT NULL,
+		[BrandKey] [nvarchar](50) NOT NULL,
+		[BrandName] [nvarchar](50) NOT NULL,
+		[Description] [nvarchar](250) DEFAULT NULL,
+		[Created] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Updated] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Author] [nvarchar](50) DEFAULT NULL,
+		[Editor] [nvarchar](50) DEFAULT NULL,
+		[Deleted] [int] DEFAULT 0
+	CONSTRAINT [PK_BrandId] PRIMARY KEY CLUSTERED
+	(
+		[BrandId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+GO
 
---
--- Sample data for table `Inventory`
---
-INSERT INTO `Inventory`(InventoryKey, InventoryName, Location, Description, Author, Editor)
-VALUES (uuid(),'Front Store','327 Nam Ky Khoi Nghia','Sai Gon store','SYSTEM','SYSTEM');
-
-INSERT INTO `Inventory`(InventoryKey, InventoryName, Location, Description, Author, Editor)
-VALUES (uuid(),'Back Store','45A Song Than Industrial Group','Binh Duong store', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Inventory`(InventoryKey, InventoryName, Location, Description, Author, Editor)
-VALUES (uuid(),'Shop Store','450 A Ngu Hanh Son street','Da Nang city', 'SYSTEM', 'SYSTEM');
-
-
---
--- Table structure for table `InventoryBalance`
---
-DROP TABLE IF EXISTS `InventoryBalance`;
-CREATE TABLE `InventoryBalance` (
-  `InventoryBalanceId` INT(11) NOT NULL AUTO_INCREMENT,
-  `InventoryId` INT(11) DEFAULT NULL,
-  `ProductId` INT(11) DEFAULT NULL,
-  `IsPerpetual` TINYINT(1) DEFAULT 0,
-  `QtyInput` INT(11) NOT NULL DEFAULT 0,
-  `QtyOutput` INT(11) NOT NULL DEFAULT 0,
-  `Currency` VARCHAR(3) DEFAULT NULL,
-  `Price` DECIMAL(12,4) NOT NULL DEFAULT 0,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,  
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`InventoryBalanceId`),
-  UNIQUE KEY `InventoryBalanceId_UNIQUE` (`InventoryBalanceId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
---
--- Sample data for table `InventoryBalance`
---
-INSERT INTO `InventoryBalance`(InventoryId, ProductId, QtyInput, QtyOutput, Price, Author, Editor)
-VALUES (1, 1, 10, 5, 50, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `InventoryBalance`(InventoryId, ProductId, QtyInput, QtyOutput, Price, Author, Editor)
-VALUES (1, 2, 12, 6, 50, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `InventoryBalance`(InventoryId, ProductId, QtyInput, QtyOutput, Price, Author, Editor)
-VALUES (1, 3, 15, 10, 50, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `InventoryBalance`(InventoryId, ProductId, QtyInput, QtyOutput, Price, Author, Editor)
-VALUES (2, 1, 2, 1, 50, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `InventoryBalance`(InventoryId, ProductId, QtyInput, QtyOutput, Price, Author, Editor)
-VALUES (2, 2, 2, 1, 50, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `InventoryBalance`(InventoryId, ProductId, QtyInput, QtyOutput, Price, Author, Editor)
-VALUES (2, 3, 2, 1, 50, 'SYSTEM', 'SYSTEM');
+-- Sample data
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Thinkpad T450','Lenovo Thinkpad T450','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Apple','Apple','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'HIPHOP 005','HIPHOP 005','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Asus','Asus','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'HP Pro 1005','HP Pro 1005','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'IBM','IBM','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Super Car 2002','Super Car 2002','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Dell_XPS','Dell_XPS','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'HP 1009','HP Enterprise 1009','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Brand TEST 10','Brand TEST 10','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Asus 520 V.1001','Asus 520 V.10008','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Brand TEST 12xx','Brand TEST 12xx','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'HP ProBook 2015','HP ProBook 2015','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Brand TEST 14','Brand TEST 14','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'HP Pro Enter 2011','HP Pro Enter 2011','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Brand 16','Brand 16','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'DEL version.2017','DEL version.2017','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Brand TEST 18','Brand TEST 18','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Brand 19 Century','Brand 19 Century','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Coca Cola','Coca Cola','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Pepsi Company','Pepsi Company','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Brand] (BrandKey,BrandName,Description,Author,Editor) VALUES (NEWID(),'Facebook','The Facebook','SYSTEM','SYSTEM');
 
 
 --
--- Table structure for table `Stock`
+-- Table [dbo].[Product]
 --
-DROP TABLE IF EXISTS `Stock`;
-CREATE TABLE `Stock` (
-  `StockId` INT(11) NOT NULL AUTO_INCREMENT,
-  `StockKey` VARCHAR(50) NOT NULL,
-  `StockNo` VARCHAR(50) DEFAULT NULL,
-  `StockDate` DATETIME DEFAULT NULL,
-  `StockType` VARCHAR(20) DEFAULT NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `Currency` VARCHAR(3) DEFAULT NULL,
-  `TotalAmount` DECIMAL(12,4) DEFAULT 0,
-  `CustomerId` INT(11) DEFAULT 0,
-  `CustomerName` VARCHAR(50) DEFAULT NULL,
-  `InvoiceNo` VARCHAR(20) DEFAULT NULL,
-  `InvoiceDate` DATETIME DEFAULT NULL,
-  `InvoiceDesc` VARCHAR(250) DEFAULT NULL,  
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`StockId`),
-  UNIQUE KEY `StockId_UNIQUE` (`StockId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
---
--- Sample data for table `Stock`
---
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKIN-000001', '2017-02-01', 'STOCKIN', 'Input Goods', 'VND', '60000', '1', 'Vina Sun', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKIN-000002', '2017-04-02', 'STOCKIN', 'Input Goods', 'VND', '60000', '2', 'Vina Capital', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKIN-000003', '2017-05-03', 'STOCKIN', 'Input Goods', 'VND', '60000', '3', 'Vina Kyoei', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKIN-000004', '2017-06-03', 'STOCKIN', 'Input Goods', 'VND', '60000', '3', 'Vina Kyoei', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKIN-000005', '2017-07-03', 'STOCKIN', 'Input Goods', 'VND', '60000', '3', 'Vina Kyoei', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKIN-000006', '2017-08-03', 'STOCKIN', 'Input Goods', 'VND', '60000', '3', 'Vina Kyoei', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKOUT-000001', '2017-07-21', 'STOCKOUT', 'Output Goods', 'VND', '30000', '1', 'Mitsuibishi', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKOUT-000002', '2017-07-22', 'STOCKOUT', 'Output Goods', 'VND', '30000', '2', 'FPT Information System', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKOUT-000003', '2017-07-12', 'STOCKOUT', 'Output Goods', 'USD', '150', '2', 'FPT Software', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKOUT-000004', '2017-08-21', 'STOCKOUT', 'Output Goods', 'VND', '30000', '1', 'Mitsuibishi', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKOUT-000005', '2017-10-22', 'STOCKOUT', 'Output Goods', 'VND', '30000', '2', 'FPT Information System', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Stock`(StockKey, StockNo, StockDate, StockType, Description, Currency, TotalAmount, CustomerId, CustomerName, Author, Editor) 
-VALUES (uuid(), 'STOCKOUT-000006', '2017-10-12', 'STOCKOUT', 'Output Goods', 'USD', '150', '2', 'FPT Software', 'SYSTEM', 'SYSTEM');
-
---
--- Table structure for table `StockDetail`
---
-DROP TABLE IF EXISTS `StockDetail`;
-CREATE TABLE `StockDetail` (
-  `StockDetailId` INT(11) NOT NULL AUTO_INCREMENT,
-  `StockId` INT(11) DEFAULT 0,
-  `ProductId` INT(11) DEFAULT 0,
-  `ProductName` VARCHAR(50) DEFAULT NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `Quantity` INT(11) DEFAULT 0,
-  `Price` DECIMAL(12,4) DEFAULT 0,
-  `Amount` DECIMAL(12,4) DEFAULT 0,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`StockDetailId`),
-  UNIQUE KEY `StockDetailId_UNIQUE` (`StockDetailId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
---
--- Sample data for table `StockDetail`
---
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (1, 1, 'Product 1', ' Desc 1', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (1, 2, 'Product 2', ' Desc 2', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (1, 3, 'Product 3', ' Desc 3', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (2, 1, 'Product 1', ' Desc 1', 10, 200, 2000, 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (2, 2, 'Product 2', ' Desc 2', 5, 200, 1000, 'SYSTEM', 'SYSTEM');
+IF (EXISTS (SELECT * 
+			FROM INFORMATION_SCHEMA.TABLES 
+			WHERE TABLE_CATALOG='eshop' AND TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'Product'))
+BEGIN
+	DROP TABLE [dbo].[Product]
+END
+GO
+
+BEGIN
+	CREATE TABLE [dbo].[Product](
+		[ProductId] [int] IDENTITY(1,1) NOT NULL,
+		[ProductKey] [nvarchar](50) NOT NULL,
+		[ProductCode] [nvarchar](20) DEFAULT NULL,
+		[ProductName] [nvarchar](50) DEFAULT NULL,
+		[ProductImage] [nvarchar](50) DEFAULT NULL,	
+		[Description] [nvarchar](250) DEFAULT NULL,
+		[BrandId] [int] NOT NULL DEFAULT 0,
+		[Price] [decimal](12,4) DEFAULT 0,
+		[Colour] [nvarchar](10) DEFAULT NULL, -- should be ColorCode
+		[Status] [nvarchar](10) DEFAULT NULL,
+		[LatestReviewInfo] [nvarchar](250) DEFAULT NULL,
+		[Created] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Updated] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Author] [nvarchar](50) DEFAULT NULL,
+		[Editor] [nvarchar](50) DEFAULT NULL,
+		[Deleted] [int] DEFAULT 0
+	CONSTRAINT [PK_ProductId] PRIMARY KEY CLUSTERED
+	(
+		[ProductId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+GO
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (2, 3, 'Product 3', ' Desc 3', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+-- Sample data
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (3, 1, 'Product 1', ' Desc 1', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (3, 2, 'Product 2', ' Desc 2', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (3, 3, 'Product 3', ' Desc 3', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (4, 1, 'Product 1', ' Desc 1', 10, 200, 2000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (4, 2, 'Product 2', ' Desc 2', 5, 200, 1000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (4, 3, 'Product 3', ' Desc 3', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (5, 1, 'Product 1', ' Desc 1', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (5, 2, 'Product 2', ' Desc 2', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (5, 3, 'Product 3', ' Desc 3', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (6, 1, 'Product 1', ' Desc 1', 10, 200, 2000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (6, 2, 'Product 2', ' Desc 2', 5, 200, 1000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (6, 3, 'Product 3', ' Desc 3', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (7, 1, 'Product 1', ' Desc 1', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (7, 2, 'Product 2', ' Desc 2', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (7, 3, 'Product 3', ' Desc 3', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (8, 1, 'Product 1', ' Desc 1', 10, 200, 2000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (8, 2, 'Product 2', ' Desc 2', 5, 200, 1000, 'SYSTEM', 'SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
 
-INSERT INTO `StockDetail`(StockId, ProductId, ProductName, Description, Quantity, Price, Amount, Author, Editor) 
-VALUES (8, 3, 'Product 3', ' Desc 3', 25, 200, 5000, 'SYSTEM', 'SYSTEM');
-
---
--- Table structure for table `Journal`
---
-DROP TABLE IF EXISTS `Journal`;
-CREATE TABLE `Journal` (
-  `JournalId` INT(11) NOT NULL AUTO_INCREMENT,
-  `JournalKey` VARCHAR(50) NOT NULL,
-  `JournalType` VARCHAR(20) NOT NULL,
-  `JournalDate` DATETIME DEFAULT NULL,
-  `DebitAcctNo` VARCHAR(20) NOT NULL,
-  `CreditAcctNo` VARCHAR(20) NOT NULL,
-  `Currency` VARCHAR(3) DEFAULT NULL,
-  `Amount` DECIMAL(12,4) NOT NULL DEFAULT 0,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`JournalId`),
-  UNIQUE KEY `JournalId_UNIQUE` (`JournalId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-
---
--- Table structure for table `Journal`
---
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'CASH', '2017-08-01', '111', '641', 'VND', 6500, ' Cash Journal', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'CASH', '2017-08-08', '112', '642', 'VND', 5000, ' Cash Journal', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'STOCK', '2017-08-09', '156', '632', 'VND', 8000, 'Import Product', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'STOCK', '2017-08-09', '156', '632', 'VND', 600, ' Import Product', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'STOCK', '2017-09-09', '156', '632', 'VND', 150, ' Import Product', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'CASH', '2017-09-01', '111', '641', 'VND', 6500, ' Cash Journal', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'CASH', '2017-09-08', '112', '642', 'VND', 5000, ' Cash Journal', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'STOCK', '2017-09-09', '156', '632', 'VND', 8000, 'Import Product', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'STOCK', '2017-09-09', '156', '632', 'VND', 600, ' Import Product', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'STOCK', '2017-09-21', '156', '632', 'VND', 150, ' Import Product', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'CASH', '2017-10-01', '111', '641', 'VND', 6500, ' Cash Journal', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'CASH', '2017-10-08', '112', '642', 'VND', 5000, ' Cash Journal', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'STOCK', '2017-10-09', '156', '632', 'VND', 8000, 'Import Product', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'STOCK', '2017-10-19', '156', '632', 'VND', 600, ' Import Product', 'SYSTEM', 'SYSTEM');
-
-INSERT INTO `Journal`(JournalKey,JournalType,JournalDate,DebitAcctNo,CreditAcctNo,Currency,Amount,Description,Author,Editor) 
-VALUES (uuid(), 'STOCK', '2017-10-22', '156', '632', 'VND', 150, ' Import Product', 'SYSTEM', 'SYSTEM');
-
-
---
--- Table structure for table `Brand`
---
-DROP TABLE IF EXISTS `Brand`;
-CREATE TABLE `Brand` (
-  `BrandId` INT(11) NOT NULL AUTO_INCREMENT,
-  `BrandKey` VARCHAR(50) NOT NULL,
-  `BrandName` VARCHAR(50) NOT NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`BrandId`),
-  UNIQUE KEY `BrandId_UNIQUE` (`BrandId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
---
--- Sample data for table `Brand`
---
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Gucci','Gucci','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Nike','Nike','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Adidas','Adidas','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'John Henry','John Henry','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Romano','Romano','SYSTEM','SYSTEM'); -- 5
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Hermes','Hermes','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Christian Dior','Christian Dior','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Brook Brothers','X-Men','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Burberry','Burberry','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Louis Vuiton','Louis Vuiton','SYSTEM','SYSTEM');
-
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'IBM','IBM','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Microsoft','Microsoft Corporation','SYSTEM','SYSTEM'); -- 12
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Facebook','Facebook Corporation','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Apple','Apple Corporation','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Sony','Sony Corporation','SYSTEM','SYSTEM');  -- 15
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Samsung','Samsung Corporation','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Alibaba Group','Alibaba Group','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Amazon','Amazon AWS','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'HP Enterprise','HP Enterprise','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Dell Corporation','Dell Corporation','SYSTEM','SYSTEM');
-
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Snapchat','Snapchat','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Coca Cola','Coca Cola','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Pepsi','Pepsi','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Chivas','Chivas','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Scotch','Scotch 19th century','SYSTEM','SYSTEM'); -- 25
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Johny Walker','Johny Walker','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Hennessy','Hennessy','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'LG','LG','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Nokia','Nokia','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Xiaomi','Xiaomi Corp','SYSTEM','SYSTEM'); -- 30
-
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Brodard','Brodard cake','SYSTEM','SYSTEM');
-INSERT INTO `Brand` (`BrandKey`,`BrandName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Conditori La Glace','Conditori La Glace Copenhagen','SYSTEM','SYSTEM');
-
-
---
--- Table structure for table `Category`
---
-DROP TABLE IF EXISTS `Category`;
-CREATE TABLE `Category` (
-  `CategoryId` INT(11) NOT NULL AUTO_INCREMENT,
-  `CategoryKey` VARCHAR(50) NOT NULL,
-  `CategoryName` VARCHAR(50) NOT NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`CategoryId`),
-  UNIQUE KEY `CategoryId_UNIQUE` (`CategoryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
---
--- Sample data for table `Category`
---
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Laptop','Laptop','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Mobile Phone','Mobile Phone','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Smart Glasses','Smart Glasses','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Smart Watch','Smart Watch','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Robocon','Robocon','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Wearable','Wearable','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Desktop','Desktop','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Men Shoes','Men Shoes','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Women Shoes','Women Shoes','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Traditional Watch','Traditional Watch','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Balo','Balo','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Handbadge','Handbadge','SYSTEM','SYSTEM');
-
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Microsoft Laptop','Microsoft Laptop','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Microsoft Phone','Microsoft Phone','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Apple Laptop','Apple Laptop','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Apple Phone','Apple Phone','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'LG Phone','LG Phone','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Nokia Phone','Nokia Phone','SYSTEM','SYSTEM');
-INSERT INTO `Category` (`CategoryKey`,`CategoryName`,`Description`,`Author`, `Editor`) VALUES (uuid(),'Xiaomi Smart Phone','Xiaomi Smart Phone','SYSTEM','SYSTEM');
-
-
-
-
---
--- Table structure for table `Product`
---
-DROP TABLE IF EXISTS `Product`;
-CREATE TABLE `Product` (
-  `ProductId` INT(11) NOT NULL AUTO_INCREMENT,
-  `ProductKey` VARCHAR(50) NOT NULL,
-  `ProductCode` VARCHAR(20) DEFAULT NULL,
-  `ProductName` VARCHAR(50) DEFAULT NULL,
-  `ProductImage` VARCHAR(50) DEFAULT NULL,
-  `SizeList` VARCHAR(250) DEFAULT NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `BrandId` INT(11) NOT NULL DEFAULT 0,
-  `CategoryId` INT(11) NOT NULL DEFAULT 0,
-  `Price` DECIMAL(12, 4) DEFAULT 0,
-  `ColorCode` VARCHAR(10) DEFAULT NULL,
-  `Status` VARCHAR(10) DEFAULT NULL,
-  `LatestReviewInfo` VARCHAR(250) DEFAULT NULL,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`ProductId`),
-  UNIQUE KEY `ProductId_UNIQUE` (`ProductId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='	';
-
---
--- Sample data for table `Product`
---
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Sony Vaio','8/8.5/9.5/10/11','Sony Vaio',1,100,'White','NEW','Cool','product02.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Apple MacBook Pro 13-inch','8/8.5/9.5/10/11','A groundbreaking Retina. A new force-sensing trackpad. All-flash architecture. Powerful dual-core and quad-core Intel processors. Together, these features take the notebook to a new level of performance.',2,2000,'White','NEW','Cool','product02.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'HP Note','8/8.5/9.5/10/11','HP Note',2,100,'Yellow','NEW','Cool','product02.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Asus','8/8.5/9.5/10/11','Asus',4,800,'White','NEW','Cool','product03.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Lenovo Thinkpad X1','8/8.5/9.5/10/11','Lenovo Thinkpad X1 Carbon Touch Intel Core i7 14 Ultrabook',4,1100,'White','NEW','Cool','product03.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Sony Xperia','8/8.5/9.5/10/11','Sony Xperia',6,1200,'White','NEW','Cool','product03.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'IBM T42','8/8.5/9.5/10/11','IBM T42',20,100,'Red','NEW','Cool','product04.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'IBM T60','8/8.5/9.5/10/11','IBM T60',20,100,'Red','NEW','Cool','product04.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'IBM T400','8/8.5/9.5/10/11','IBM T400',20,100,'Red','NEW','Cool','product04.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Ipad 5','8/8.5/9.5/10/11','Ipad 5',22,3000,'Green','NEW','Cool','product05.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'IBM T42','8/8.5/9.5/10/11','IBM T42',20,100,'Red','NEW','Cool','product05.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'IBM T60','8/8.5/9.5/10/11','IBM T60',20,100,'Red','NEW','Cool','product04.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'IBM T400','8/8.5/9.5/10/11','IBM T400',20,100,'Red','NEW','Cool','product00.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Ipad 6','8/8.5/9.5/10/11','Ipad 6',22,3000,'Green','NEW','Cool','product03.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'IBM T4200','8/8.5/9.5/10/11','IBM T4200',5,100,'Red','NEW','Cool','product02.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'IBM T44','8/8.5/9.5/10/11','IBM T44',5,100,'Red','NEW','Cool','product05.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'IBM T45','8/8.5/9.5/10/11','IBM T45',5,100,'Red','NEW','Cool','product06.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Ipad 7','8/8.5/9.5/10/11','Ipad 7',22,3000,'Green','NEW','Cool','product07.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'IBM T46','8/8.5/9.5/10/11','IBM T46',5,100,'Red','NEW','Cool','product08.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Adidas Shoes','8/8.5/9.5/10/11','Adidas Shoes',1,100,'Red','NEW','Cool','product01.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Brook Brothers','8/8.5/9.5/10/11','Adidas Shoes',1,100,'Red','NEW','Cool','product05.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Adidas Shoes','8/8.5/9.5/10/11','Adidas Shoes',1,75,'Green','NEW','Cool','product04.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Nike Shoes','8/8.5/9.5/10/11','Nike Shoes',2,50,'White','NEW','Cool','product06.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Nike Shoes','8/8.5/9.5/10/11','Nike Shoes',2,50,'White','NEW','Cool','product07.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Gucci Shoes','8/8.5/9.5/10/11','Nike Shoes',2,50,'Black','NEW','Cool','product08.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Nike Shoes','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2000','2/2.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Great','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2001','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2002','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2003','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2004','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2005','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2006','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2007','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2008','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2009','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2010','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2011','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2012','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2013','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2014','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2015','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2016','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2017','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2018','8/8.5/9.5/11/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2019','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2020','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2021','8/8.5/9.5/10/11','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Buma Shoes 2022','8/8.5/9.5/10/22','Nike Shoes',2,50,'Pink','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
--- update images later
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Microsoft Surface','8/8.5/9.5/10/11','Microsoft Surface',12,50,'Silver','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Microsoft Surface','8/8.5/9.5/10/11','Microsoft Surface',14,50,'Silver','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Microsoft Surface','8/8.5/9.5/10/11','Microsoft Surface',15,50,'Silver','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Microsoft Surface','8/8.5/9.5/10/11','Microsoft Surface',28,50,'Silver','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Microsoft Surface','8/8.5/9.5/10/11','Microsoft Surface',29,50,'Silver','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
-
-INSERT INTO `Product`(`ProductKey`,`ProductName`,`SizeList`,`Description`,`BrandId`,`Price`,`ColorCode`,`Status`,`LatestReviewInfo`,`ProductImage`,`Author`,`Editor`)
-VALUES (uuid(),'Microsoft Surface','8/8.5/9.5/10/11','Microsoft Surface',30,50,'Silver','NEW','Cool','product09.jpg','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 1980', 'DESC: Macbook Pro 1980', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo Future 2022', 'DESC: Laptop IBM Lenovo Future 2022', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio Super Cool 2025', 'DESC: Laptop Sony Vaio Super Cool 2025', 1, 1400, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2021', 'IBM Lenovo X 2021', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2022', 'Sony Vaio 2022', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2020', 'DESC: Laptop Sony Vaio 2020', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2020', 'DESC: IBM Lenovo X 2020', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 2015', 'DESC: Laptop Sony Vaio 2015', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 2018', 'DESC: Laptop Sony Vaio 2018', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 1998', 'DESC: Macbook Pro 1998', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 1999', 'DESC: Laptop IBM Lenovo 1999', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2020', 'Sony Vaio 2000', 'DESC: Laptop Sony Vaio 2000', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBMX-2020', 'IBM Lenovo X 2001', 'DESC: IBM Lenovo X 2001', 2, 1000, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2015', 'Sony Vaio 1995', 'DESC: Laptop Sony Vaio 1995', 1, 100, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'SONY-2018', 'Sony Vaio 1995-X2', 'DESC: Laptop Sony Vaio 1995-X2', 1, 100, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'MAC-2015', 'Macbook Pro 2015', 'DESC: Macbook Pro 2015', 2, 1500, 'While', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'IBM-2016', 'IBM Lenovo 2016', 'DESC: Laptop IBM Lenovo 2016', 2, 100, 'Black', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2000', 'TIGER BEER 2000', 'DESC: TIGER BEER 2000', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2001', 'TIGER BEER 2001', 'DESC: TIGER BEER 2001', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2002', 'TIGER BEER 2002', 'DESC: TIGER BEER 2002', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2003', 'TIGER BEER 2003', 'DESC: TIGER BEER 2003', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2004', 'TIGER BEER 2004', 'DESC: TIGER BEER 2004', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2005', 'TIGER BEER 2005', 'DESC: TIGER BEER 2005', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2006', 'TIGER BEER 2006', 'DESC: TIGER BEER 2006', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2007', 'TIGER BEER 2007', 'DESC: TIGER BEER 2007', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2009', 'TIGER BEER 2009', 'DESC: TIGER BEER 2009', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2008', 'TIGER BEER 2008', 'DESC: TIGER BEER 2008', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2010', 'TIGER BEER 2010', 'DESC: TIGER BEER 2010', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2011', 'TIGER BEER 2011', 'DESC: TIGER BEER 2011', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
+VALUES (NEWID(), 'TIGER-2012', 'TIGER BEER 2012', 'DESC: TIGER BEER 2012', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
+
 
 --
 -- Table structure for table `Review`
 --
-DROP TABLE IF EXISTS `Review`;
-CREATE TABLE `Review` (
-  `ReviewId` INT(11) NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(50) DEFAULT NULL,
-  `Rating` INT(2) DEFAULT 0,
-  `Comment` VARCHAR(250) DEFAULT NULL,
-  `ProductId` INT(11) DEFAULT 0,
-  `Email` VARCHAR(50) DEFAULT NULL,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`ReviewId`),
-  UNIQUE KEY `ReviewId_UNIQUE` (`ReviewId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+IF (EXISTS (SELECT * 
+			FROM INFORMATION_SCHEMA.TABLES 
+			WHERE TABLE_CATALOG='eshop' AND TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'Review'))
+BEGIN
+	DROP TABLE [dbo].[Review]
+END
+GO
 
---
--- Sample data for table `Review`
---
-INSERT INTO `Review`(`Name`,`Rating`, `Comment`, `Created`, `ProductId`, `Email`, `Author`, `Editor`) VALUES ('TEST',1,'Not bad','2013-08-25 17:00:00',1,'test@hvn.com','SYSTEM','SYSTEM');
-INSERT INTO `Review`(`Name`,`Rating`, `Comment`, `Created`, `ProductId`, `Email`, `Author`, `Editor`) VALUES ('TEST',5,'Normal','2013-08-25 17:00:00',2,'test@hvn.com','SYSTEM','SYSTEM');
-INSERT INTO `Review`(`Name`,`Rating`, `Comment`, `Created`, `ProductId`, `Email`, `Author`, `Editor`) VALUES ('TEST',6,'Good','2013-08-22 17:00:00',3,'test@hvn.com','SYSTEM','SYSTEM');
-INSERT INTO `Review`(`Name`,`Rating`, `Comment`, `Created`, `ProductId`, `Email`, `Author`, `Editor`) VALUES ('TEST',3,'Good','2013-08-22 17:00:00',3,'test@hvn.com','SYSTEM','SYSTEM');
-INSERT INTO `Review`(`Name`,`Rating`, `Comment`, `Created`, `ProductId`, `Email`, `Author`, `Editor`) VALUES ('TEST',3,'Bad','2013-08-22 17:00:00',5,'test@hvn.com','SYSTEM','SYSTEM');
-INSERT INTO `Review`(`Name`,`Rating`, `Comment`, `Created`, `ProductId`, `Email`, `Author`, `Editor`) VALUES ('TEST',3,'Comment','2016-07-10 16:43:40',7,'hvn@hvn.net','SYSTEM','SYSTEM');
-INSERT INTO `Review`(`Name`,`Rating`, `Comment`, `Created`, `ProductId`, `Email`, `Author`, `Editor`) VALUES ('TEST',3,'Comment','2016-07-10 16:43:41',7,'hvn@hvn.net','SYSTEM','SYSTEM');
-INSERT INTO `Review`(`Name`,`Rating`, `Comment`, `Created`, `ProductId`, `Email`, `Author`, `Editor`) VALUES ('TEST',3,'Comment','2016-07-10 16:43:41',7,'hvn@hvn.net','SYSTEM','SYSTEM');
-INSERT INTO `Review`(`Name`,`Rating`, `Comment`, `Created`, `ProductId`, `Email`, `Author`, `Editor`) VALUES ('TEST',2,'2222','2016-07-10 16:59:04',15,'hvn@hvn.net','SYSTEM','SYSTEM');
+BEGIN
+	CREATE TABLE [dbo].[Review](
+		[ReviewId] [int] IDENTITY(1,1) NOT NULL,
+		[Name] [nvarchar](50) DEFAULT NULL,
+		[Rating] [int] DEFAULT 0,
+		[Comment] [nvarchar](250) DEFAULT NULL,
+		[ProductId] [int] DEFAULT 0,
+		[Email] [nvarchar](50) DEFAULT NULL,
+		[Created] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Updated] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Author] [nvarchar](50) DEFAULT NULL,
+		[Editor] [nvarchar](50) DEFAULT NULL,
+		[Deleted] [int] DEFAULT 0
+	CONSTRAINT [PK_ReviewId] PRIMARY KEY CLUSTERED
+	(
+		[ReviewId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+GO
 
---
--- Table structure for table `User`
---
-DROP TABLE IF EXISTS `User`;
-CREATE TABLE `User` (
-  `UserId` INT(11) NOT NULL AUTO_INCREMENT,
-  `UserKey` VARCHAR(50) DEFAULT NULL,
-  `UserType` VARCHAR(20) DEFAULT NULL,
-  `UserName` VARCHAR(50) DEFAULT NULL,
-  `Hash` VARCHAR(250) DEFAULT NULL,
-  `DisplayName` VARCHAR(50) DEFAULT NULL,
-  `ImageKey` VARCHAR(250) DEFAULT NULL,  
-  `Email` VARCHAR(50) DEFAULT NULL,
-  `Mobile` VARCHAR(50) DEFAULT NULL,  
-  `Title` VARCHAR(50) DEFAULT NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,
-  `DateOfBirth` DATETIME DEFAULT NULL,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`UserId`),
-  UNIQUE KEY `Email_UNIQUE` (`Email`),
-  UNIQUE KEY `UserName_UNIQUE` (`UserName`),
-  UNIQUE KEY `UserId_UNIQUE` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
---
--- Sample data for table `User`
---
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'ADMIN','admin', 'QGRtaW4=', 'Administrator','admin@estore.com','001 852741963','2012-12-12','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','beckham', 'QGRtaW4=', 'David Beckham','beckham@ibm.com','001 852741963','1990-03-03','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','huetran', 'QGRtaW4=', 'Nguyen Hue Tran','huetran@marui.com','001 852741963','1990-04-04','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','avo4', 'QGRtaW4=', 'Anh Vo','avo4@csc.com','001 852741963','1984-12-22','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','anhvod', 'QGRtaW4=', 'Vo Duy Anh','anhvod@sharepoint.org','084 852741963','1984-12-24','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','romney', 'QGRtaW4=', 'Mitt Romney','romney@president.com','001 852741963','1980-06-06','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','obama', 'QGRtaW4=', 'obama','obama@president.com','001 852741963','1980-06-06','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','thanglt', 'QGRtaW4=', 'Le Tat Thang','thanglt@fpt.com.vn','001 852741963','1980-08-08','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','leung', 'QGRtaW4=', 'Leung Benchmark','leung@samsung.com','001 852741963','1980-02-02','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','supervisor', 'QGRtaW4=', 'Super Visor','super@super.org','003 852741963','1980-02-02','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','messi', 'QGRtaW4=', 'Lionel Messi','messi@barca.com','001 852741963','1980-02-02','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','rice', 'QGRtaW4=', 'Coldoleeza Rice','rice@secretary.com','001 852741963','1980-02-02','SYSTEM','SYSTEM');
-
-INSERT INTO `User` (`UserKey`, `UserType`, `UserName`, `Hash`, `DisplayName`, `Email`, `Mobile`, `DateOfBirth`, `Author`, `Editor`) 
-VALUES (uuid(), 'USER','ronaldo', 'QGRtaW4=', 'Cris Ronaldo','ronaldo@mu.com','001 852741963','1980-02-02','SYSTEM','SYSTEM');
+-- Sample data
+INSERT INTO [dbo].[Review](Name, Rating,Comment,Created,ProductId,Email,Author,Editor) VALUES ('TEST',1,'Not bad','2013-08-25 17:00:00',1,'test@hvn.com','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Review](Name, Rating,Comment,Created,ProductId,Email,Author,Editor) VALUES ('TEST',5,'Normal','2013-08-25 17:00:00',2,'test@hvn.com','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Review](Name, Rating,Comment,Created,ProductId,Email,Author,Editor) VALUES ('TEST',6,'Good','2013-08-22 17:00:00',3,'test@hvn.com','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Review](Name, Rating,Comment,Created,ProductId,Email,Author,Editor) VALUES ('TEST',3,'Good','2013-08-22 17:00:00',3,'test@hvn.com','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Review](Name, Rating,Comment,Created,ProductId,Email,Author,Editor) VALUES ('TEST',3,'Bad','2013-08-22 17:00:00',5,'test@hvn.com','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Review](Name, Rating,Comment,Created,ProductId,Email,Author,Editor) VALUES ('TEST',3,'Comment','2016-07-10 16:43:40',7,'hvn@hvn.net','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Review](Name, Rating,Comment,Created,ProductId,Email,Author,Editor) VALUES ('TEST',3,'Comment','2016-07-10 16:43:41',7,'hvn@hvn.net','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Review](Name, Rating,Comment,Created,ProductId,Email,Author,Editor) VALUES ('TEST',3,'Comment','2016-07-10 16:43:41',7,'hvn@hvn.net','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Review](Name, Rating,Comment,Created,ProductId,Email,Author,Editor) VALUES ('TEST',2,'2222','2016-07-10 16:59:04',15,'hvn@hvn.net','SYSTEM','SYSTEM');
 
 
 --
--- Table structure for table `Group`
+-- Table structure for table [dbo].[User]
 --
-DROP TABLE IF EXISTS `Group`;
-CREATE TABLE `Group` (
-  `GroupId` INT(11) NOT NULL AUTO_INCREMENT,
-  `GroupKey` VARCHAR(50) DEFAULT NULL,
-  `GroupName` VARCHAR(50) DEFAULT NULL,
-  `Description` VARCHAR(250) DEFAULT NULL,  
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  `Deleted` TINYINT(1) DEFAULT 0,
-  PRIMARY KEY (`GroupId`),
-  UNIQUE KEY `GroupId_UNIQUE` (`GroupId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+IF (EXISTS (SELECT * 
+			FROM INFORMATION_SCHEMA.TABLES 
+			WHERE TABLE_CATALOG='eshop' AND TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'User'))
+BEGIN
+	DROP TABLE [dbo].[User]
+END
+GO
+
+BEGIN
+	CREATE TABLE [dbo].[User](
+		[UserId] [int] IDENTITY(1,1) NOT NULL,
+		[UserKey] [nvarchar](50) NOT NULL,	
+		[UserType] [nvarchar](20) DEFAULT NULL,
+		[UserName] [nvarchar](50) DEFAULT NULL,
+		[Hash] [nvarchar](50) DEFAULT NULL,	
+		[DisplayName] [nvarchar](50) DEFAULT NULL,
+		[ImageKey] [nvarchar](250) DEFAULT NULL,
+		[Email] [nvarchar](50) DEFAULT NULL,
+		[Mobile] [nvarchar](50) DEFAULT NULL,	
+		[Title] [nvarchar](50) DEFAULT NULL,
+		[Description] [nvarchar](250) DEFAULT NULL,
+		[DateOfBirth] [datetime] DEFAULT NULL,	
+		[Created] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Updated] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Author] [nvarchar](50) DEFAULT NULL,
+		[Editor] [nvarchar](50) DEFAULT NULL,
+		[Deleted] [int] DEFAULT 0
+	CONSTRAINT [PK_User] PRIMARY KEY CLUSTERED 
+	(
+		[UserId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+GO
+
+-- Sample data
+INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
+VALUES (NEWID(),'USER', 'beckham',NEWID(),'David Beckham','hoanganh@ibm.com','1990-03-03','SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
+VALUES (NEWID(),'USER', 'huetran',NEWID(),'Hue Tran','huetran@hvn.com','1990-04-04','SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
+VALUES (NEWID(),'USER', 'anhvod', NEWID(),'Vo Duy Anh','anhvod@hvn.com','1984-12-24','SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
+VALUES (NEWID(),'ADMIN','admin',  NEWID(),'John Mike','john@microsoft.com','2000-12-26','SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
+VALUES (NEWID(),'USER', 'supervisor',   NEWID(),'Supervisor','supervisor@csc.com','1984-12-22','SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
+VALUES (NEWID(),'USER', 'anhduyvo', NEWID(),'Vo Duy Anh','anhvod@hvn.com','1984-12-24','SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
+VALUES (NEWID(),'USER', 'pogba',  NEWID(),'Pogba','pogba@samsung.com','1985-06-06','SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
+VALUES (NEWID(),'USER', 'anhvo', NEWID(),'Anh Duy Vo','anhvod@hvn.com','1984-12-24','SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
+VALUES (NEWID(),'USER', 'batistuta', NEWID(),'Gabriel Batistuta','batistuta@sony.com','1982-08-08','SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
+VALUES (NEWID(),'USER', 'ronaldo',  NEWID(),'ronaldo','ronaldo@manchester.com','1985-06-06','SYSTEM','SYSTEM');
+
+INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
+VALUES (NEWID(),'USER', 'messi',  NEWID(),'messi','messi@manchester.com','1987-07-07','SYSTEM','SYSTEM');
 
 
 --
--- Sample data for table `Group`
+-- Table structure for table [dbo].[Group]
 --
-INSERT INTO `Group` (`GroupKey`,`GroupName`,`Description`,`Author`,`Editor`) 
-VALUES (uuid(),'Administrators', 'Administrators Group','SYSTEM','SYSTEM');
+IF (EXISTS (SELECT * 
+			FROM INFORMATION_SCHEMA.TABLES 
+			WHERE TABLE_CATALOG='eshop' AND TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'Group'))
+BEGIN
+	DROP TABLE [dbo].[Group]
+END
+GO
 
-INSERT INTO `Group` (`GroupKey`,`GroupName`,`Description`,`Author`,`Editor`) 
-VALUES (uuid(),'Sales', 'Sales Group','SYSTEM','SYSTEM');
+BEGIN
+	CREATE TABLE [dbo].[Group](
+		[GroupId] [int] IDENTITY(1,1) NOT NULL,
+		[GroupKey] [nvarchar](50) DEFAULT NULL,	
+		[GroupName] [nvarchar](50) DEFAULT NULL,
+		[Description] [nvarchar](250) DEFAULT NULL,	
+		[Created] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Updated] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Author] [nvarchar](50) DEFAULT NULL,
+		[Editor] [nvarchar](50) DEFAULT NULL,
+		[Deleted] [int] DEFAULT 0
+	CONSTRAINT [PK_Group] PRIMARY KEY CLUSTERED 
+	(
+		[GroupId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+GO
 
-INSERT INTO `Group` (`GroupKey`,`GroupName`,`Description`,`Author`,`Editor`) 
-VALUES (uuid(),'Accountances','Accountances Group','SYSTEM','SYSTEM');
+-- Sample data
+INSERT INTO [dbo].[Group] (GroupKey, GroupName, Description, Author, Editor) 
+VALUES (NEWID(),'Administrators', 'Administrators Group','SYSTEM','SYSTEM');
 
-INSERT INTO `Group` (`GroupKey`,`GroupName`,`Description`,`Author`,`Editor`) 
-VALUES (uuid(),'Human Resources', 'Human Resources Group','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Group] (GroupKey, GroupName, Description, Author, Editor) 
+VALUES (NEWID(),'Sales', 'Sales Group','SYSTEM','SYSTEM');
 
-INSERT INTO `Group` (`GroupKey`,`GroupName`,`Description`,`Author`,`Editor`)
-VALUES (uuid(),'Logictics', 'Logictics Group','SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Group] (GroupKey, GroupName, Description, Author, Editor) 
+VALUES (NEWID(),'Accountances','Accountances Group','SYSTEM','SYSTEM');
 
+INSERT INTO [dbo].[Group] (GroupKey, GroupName, Description, Author, Editor) 
+VALUES (NEWID(),'Human Resources', 'Human Resources Group','SYSTEM','SYSTEM');
 
---
--- Table structure for table `UserGroup`
---
-DROP TABLE IF EXISTS `UserGroup`;
-CREATE TABLE `UserGroup` (
-  `UserGroupId` INT(11) NOT NULL AUTO_INCREMENT,
-  `UserId` INT(11) NOT NULL,  
-  `GroupId` INT(11) NOT NULL,
-  `ModuleId` INT(11) NOT NULL,
-  `IsCreate` INT(11) DEFAULT 0,
-  `IsUpdate` INT(11) DEFAULT 0,
-  `IsDelete` INT(11) DEFAULT 0,
-  `IsDisplay` INT(11) DEFAULT 1,
-  `Created` DATETIME DEFAULT NULL,
-  `Updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Author` VARCHAR(50) DEFAULT NULL,
-  `Editor` VARCHAR(50) DEFAULT NULL,
-  PRIMARY KEY (`UserGroupId`),
-  UNIQUE KEY `UserGroupId_UNIQUE` (`UserGroupId`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-
---  GroupId = ModuleId
-INSERT INTO `UserGroup` (`UserId`, `GroupId`, `ModuleId`, `Author`, `Editor`) VALUES (1,1,1,'SYSTEM','SYSTEM');
-INSERT INTO `UserGroup` (`UserId`, `GroupId`, `ModuleId`, `Author`, `Editor`) VALUES (1,2,2,'SYSTEM','SYSTEM');
-INSERT INTO `UserGroup` (`UserId`, `GroupId`, `ModuleId`, `Author`, `Editor`) VALUES (1,3,3,'SYSTEM','SYSTEM');
-INSERT INTO `UserGroup` (`UserId`, `GroupId`, `ModuleId`, `Author`, `Editor`) VALUES (1,4,4,'SYSTEM','SYSTEM');
-INSERT INTO `UserGroup` (`UserId`, `GroupId`, `ModuleId`, `Author`, `Editor`) VALUES (1,5,5,'SYSTEM','SYSTEM');
-INSERT INTO `UserGroup` (`UserId`, `GroupId`, `ModuleId`, `Author`, `Editor`) VALUES (2,1,1,'SYSTEM','SYSTEM');
-INSERT INTO `UserGroup` (`UserId`, `GroupId`, `ModuleId`, `Author`, `Editor`) VALUES (2,2,2,'SYSTEM','SYSTEM');
-INSERT INTO `UserGroup` (`UserId`, `GroupId`, `ModuleId`, `Author`, `Editor`) VALUES (2,3,3,'SYSTEM','SYSTEM');
-INSERT INTO `UserGroup` (`UserId`, `GroupId`, `ModuleId`, `Author`, `Editor`) VALUES (2,4,4,'SYSTEM','SYSTEM');
-INSERT INTO `UserGroup` (`UserId`, `GroupId`, `ModuleId`, `Author`, `Editor`) VALUES (2,5,5,'SYSTEM','SYSTEM');
+INSERT INTO [dbo].[Group] (GroupKey, GroupName, Description, Author, Editor) 
+VALUES (NEWID(),'Logictics', 'Logictics Group','SYSTEM','SYSTEM');
 
 
 --
--- Table structure for table `UserGroupSecurity`
--- this table may be NEED or NO NEED
+-- Table [dbo].[UserGroup]
 --
+IF (EXISTS (SELECT * 
+			FROM INFORMATION_SCHEMA.TABLES 
+			WHERE TABLE_CATALOG='eshop' AND TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'UserGroup'))
+BEGIN
+	DROP TABLE [dbo].[UserGroup]
+END
+GO
+
+BEGIN
+	CREATE TABLE [dbo].[UserGroup](
+		[UserGroupId] [int] IDENTITY(1,1) NOT NULL,
+		[UserId] [int] NOT NULL,
+		[GroupId] [int] NOT NULL,
+		[ModuleId] [int] NOT NULL,
+		[IsCreate] [int] DEFAULT 0,
+		[IsUpdate] [int] DEFAULT 0,
+		[IsDelete] [int] DEFAULT 0,
+		[IsDisplay] [int] DEFAULT 1,
+		[Created] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Updated] [datetime] DEFAULT CURRENT_TIMESTAMP,
+		[Author] [nvarchar](50) NULL,
+		[Editor] [nvarchar](50) NULL
+	CONSTRAINT [PK_UserGroup] PRIMARY KEY CLUSTERED 
+	(
+		[UserGroupId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
+GO
+
+-- Sample data: GroupId = ModuleId
+INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (1,1,1,'SYSTEM','SYSTEM');
+INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (1,2,2,'SYSTEM','SYSTEM');
+INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (1,3,3,'SYSTEM','SYSTEM');
+INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (1,4,4,'SYSTEM','SYSTEM');
+INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (1,5,5,'SYSTEM','SYSTEM');
+INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (2,1,1,'SYSTEM','SYSTEM');
+INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (2,2,2,'SYSTEM','SYSTEM');
+INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (2,3,3,'SYSTEM','SYSTEM');
+INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (2,4,4,'SYSTEM','SYSTEM');
+INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (2,5,5,'SYSTEM','SYSTEM');
