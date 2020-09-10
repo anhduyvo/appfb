@@ -1004,127 +1004,19 @@ GO
 
 -- Sample data
 INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-VALUES (NEWID(),'USER', 'beckham',NEWID(),'David Beckham','hoanganh@ibm.com','1990-03-03','SYSTEM','SYSTEM');
+VALUES (NEWID(),'USER', 'admin',NEWID(),'Admin','admin@eshop.com','2000-01-01','SYSTEM','SYSTEM');
 
 INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-VALUES (NEWID(),'USER', 'huetran',NEWID(),'Hue Tran','huetran@hvn.com','1990-04-04','SYSTEM','SYSTEM');
+VALUES (NEWID(),'USER', 'manager',NEWID(),'Manager','manager@eshop.com','1985-01-02','SYSTEM','SYSTEM');
 
 INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-VALUES (NEWID(),'USER', 'anhvod', NEWID(),'Vo Duy Anh','anhvod@hvn.com','1984-12-24','SYSTEM','SYSTEM');
+VALUES (NEWID(),'USER', 'user01', NEWID(),'User 01','user01@eshop.com','1984-12-12','SYSTEM','SYSTEM');
 
 INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-VALUES (NEWID(),'ADMIN','admin',  NEWID(),'John Mike','john@microsoft.com','2000-12-26','SYSTEM','SYSTEM');
+VALUES (NEWID(),'ADMIN','user01',  NEWID(),'User 02','user01@eshop.com','1985-12-10','SYSTEM','SYSTEM');
 
 INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-VALUES (NEWID(),'USER', 'supervisor',   NEWID(),'Supervisor','supervisor@csc.com','1984-12-22','SYSTEM','SYSTEM');
+VALUES (NEWID(),'USER', 'supervisor',   NEWID(),'Supervisor','supervisor@eshop.com','1990-10-10','SYSTEM','SYSTEM');
 
 INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-VALUES (NEWID(),'USER', 'anhduyvo', NEWID(),'Vo Duy Anh','anhvod@hvn.com','1984-12-24','SYSTEM','SYSTEM');
-
-INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-VALUES (NEWID(),'USER', 'pogba',  NEWID(),'Pogba','pogba@samsung.com','1985-06-06','SYSTEM','SYSTEM');
-
-INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-VALUES (NEWID(),'USER', 'anhvo', NEWID(),'Anh Duy Vo','anhvod@hvn.com','1984-12-24','SYSTEM','SYSTEM');
-
-INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-VALUES (NEWID(),'USER', 'batistuta', NEWID(),'Gabriel Batistuta','batistuta@sony.com','1982-08-08','SYSTEM','SYSTEM');
-
-INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-VALUES (NEWID(),'USER', 'ronaldo',  NEWID(),'ronaldo','ronaldo@manchester.com','1985-06-06','SYSTEM','SYSTEM');
-
-INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-VALUES (NEWID(),'USER', 'messi',  NEWID(),'messi','messi@manchester.com','1987-07-07','SYSTEM','SYSTEM');
-
-
---
--- Table structure for table [dbo].[Group]
---
-IF (EXISTS (SELECT * 
-			FROM INFORMATION_SCHEMA.TABLES 
-			WHERE TABLE_CATALOG='eshop' AND TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'Group'))
-BEGIN
-	DROP TABLE [dbo].[Group]
-END
-GO
-
-BEGIN
-	CREATE TABLE [dbo].[Group](
-		[GroupId] [int] IDENTITY(1,1) NOT NULL,
-		[GroupKey] [nvarchar](50) DEFAULT NULL,	
-		[GroupName] [nvarchar](50) DEFAULT NULL,
-		[Description] [nvarchar](250) DEFAULT NULL,	
-		[Created] [datetime] DEFAULT CURRENT_TIMESTAMP,
-		[Updated] [datetime] DEFAULT CURRENT_TIMESTAMP,
-		[Author] [nvarchar](50) DEFAULT NULL,
-		[Editor] [nvarchar](50) DEFAULT NULL,
-		[Deleted] [int] DEFAULT 0
-	CONSTRAINT [PK_Group] PRIMARY KEY CLUSTERED 
-	(
-		[GroupId] ASC
-	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-	) ON [PRIMARY]
-END
-GO
-
--- Sample data
-INSERT INTO [dbo].[Group] (GroupKey, GroupName, Description, Author, Editor) 
-VALUES (NEWID(),'Administrators', 'Administrators Group','SYSTEM','SYSTEM');
-
-INSERT INTO [dbo].[Group] (GroupKey, GroupName, Description, Author, Editor) 
-VALUES (NEWID(),'Sales', 'Sales Group','SYSTEM','SYSTEM');
-
-INSERT INTO [dbo].[Group] (GroupKey, GroupName, Description, Author, Editor) 
-VALUES (NEWID(),'Accountances','Accountances Group','SYSTEM','SYSTEM');
-
-INSERT INTO [dbo].[Group] (GroupKey, GroupName, Description, Author, Editor) 
-VALUES (NEWID(),'Human Resources', 'Human Resources Group','SYSTEM','SYSTEM');
-
-INSERT INTO [dbo].[Group] (GroupKey, GroupName, Description, Author, Editor) 
-VALUES (NEWID(),'Logictics', 'Logictics Group','SYSTEM','SYSTEM');
-
-
---
--- Table [dbo].[UserGroup]
---
-IF (EXISTS (SELECT * 
-			FROM INFORMATION_SCHEMA.TABLES 
-			WHERE TABLE_CATALOG='eshop' AND TABLE_SCHEMA = 'dbo' AND  TABLE_NAME = 'UserGroup'))
-BEGIN
-	DROP TABLE [dbo].[UserGroup]
-END
-GO
-
-BEGIN
-	CREATE TABLE [dbo].[UserGroup](
-		[UserGroupId] [int] IDENTITY(1,1) NOT NULL,
-		[UserId] [int] NOT NULL,
-		[GroupId] [int] NOT NULL,
-		[ModuleId] [int] NOT NULL,
-		[IsCreate] [int] DEFAULT 0,
-		[IsUpdate] [int] DEFAULT 0,
-		[IsDelete] [int] DEFAULT 0,
-		[IsDisplay] [int] DEFAULT 1,
-		[Created] [datetime] DEFAULT CURRENT_TIMESTAMP,
-		[Updated] [datetime] DEFAULT CURRENT_TIMESTAMP,
-		[Author] [nvarchar](50) NULL,
-		[Editor] [nvarchar](50) NULL
-	CONSTRAINT [PK_UserGroup] PRIMARY KEY CLUSTERED 
-	(
-		[UserGroupId] ASC
-	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-	) ON [PRIMARY]
-END
-GO
-
--- Sample data: GroupId = ModuleId
-INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (1,1,1,'SYSTEM','SYSTEM');
-INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (1,2,2,'SYSTEM','SYSTEM');
-INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (1,3,3,'SYSTEM','SYSTEM');
-INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (1,4,4,'SYSTEM','SYSTEM');
-INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (1,5,5,'SYSTEM','SYSTEM');
-INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (2,1,1,'SYSTEM','SYSTEM');
-INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (2,2,2,'SYSTEM','SYSTEM');
-INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (2,3,3,'SYSTEM','SYSTEM');
-INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (2,4,4,'SYSTEM','SYSTEM');
-INSERT INTO [dbo].[UserGroup] (UserId, GroupId, ModuleId, Author, Editor) VALUES (2,5,5,'SYSTEM','SYSTEM');
+VALUES (NEWID(),'USER', 'cashier', NEWID(),'Cashier','cashier@eshop.com','2000-02-02','SYSTEM','SYSTEM');
