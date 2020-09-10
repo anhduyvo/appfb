@@ -1,6 +1,7 @@
-﻿const http = require('http');
-const server = require('./server');
-
-http.createServer(server).listen(server.get('port'), function () {
-    console.log('AppFacebook is running on port:' + server.get('port'));    
+﻿var server = require('./server');
+var app = server.listen(server.get('port'), function () {
+    console.log('Node Js version:', process.version)
+    console.log('eStore Web & API is running on port: %s', app.address().port);    
 });
+
+module.exports = app;

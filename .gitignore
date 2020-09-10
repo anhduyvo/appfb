@@ -1,0 +1,8 @@
+node_modules/
+!.gitignore
+
+config/config.js
+
+admin/node_modules/
+
+client/node_modules/
