@@ -1,3 +1,19 @@
+var mssql = require('mssql');
+
+var db_mssql = {
+    provider: mssql,
+    user: 'user',
+    password: 'password',
+    server: 'server',
+    database: 'database',
+    port: 1433,
+    pool: {
+        max: 10,
+        min: 2,
+        idleTimeoutMillis: 30000
+    }
+}
+
 var db_eshop = {
     client: 'mssql',
     connection: {
@@ -31,6 +47,7 @@ var storage = {
 };
 
 module.exports = {
+    db_mssql: db_mssql,
     db_eshop: db_eshop,
     storage: storage,
     azureAuthenticate: true, // false

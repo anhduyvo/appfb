@@ -4,9 +4,9 @@ var path = require("path");
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var methodOverride = require('method-override');
-var auth = require('./config/auth');
+var auth = require('./routes/auth');
 var config = require('./config/config');
-var common = require('./lib/commonlib');
+var common = require('./lib/common');
 
 // Express
 var server = express();

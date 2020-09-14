@@ -2,8 +2,7 @@ const router = require('express').Router();
 const cors = require('cors')
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
-
-const auth = require('../config/auth');
+const auth = require('./auth');
 const config = require('../config/config');
 const { uploadProductImageFS } = require('../lib/uploadFile');
 
