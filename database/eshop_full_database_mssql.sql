@@ -921,6 +921,16 @@ VALUES (NEWID(), 'TIGER-2011', 'TIGER BEER 2011', 'DESC: TIGER BEER 2011', 2, 10
 INSERT INTO [dbo].[Product](ProductKey, ProductCode, ProductName, Description, BrandId, Price, Colour, Status, Author,Editor) 
 VALUES (NEWID(), 'TIGER-2012', 'TIGER BEER 2012', 'DESC: TIGER BEER 2012', 2, 10, 'Yellow', 2,'SYSTEM','SYSTEM');
 
+-- update ProductImage
+UPDATE dbo.Product SET ProductImage = 'product01.jpg' WHERE ProductId = 1;
+UPDATE dbo.Product SET ProductImage = 'product02.jpg' WHERE ProductId = 2;
+UPDATE dbo.Product SET ProductImage = 'product03.jpg' WHERE ProductId = 3;
+UPDATE dbo.Product SET ProductImage = 'product04.jpg' WHERE ProductId = 4;
+UPDATE dbo.Product SET ProductImage = 'product05.jpg' WHERE ProductId = 5;
+UPDATE dbo.Product SET ProductImage = 'product06.jpg' WHERE ProductId = 6;
+UPDATE dbo.Product SET ProductImage = 'product07.jpg' WHERE ProductId = 7;
+UPDATE dbo.Product SET ProductImage = 'product08.jpg' WHERE ProductId = 8;
+UPDATE dbo.Product SET ProductImage = 'product09.jpg' WHERE ProductId = 9;
 
 --
 -- Table structure for table `Review`
