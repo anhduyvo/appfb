@@ -27,13 +27,6 @@ var storage = {
         accountName: "accountName",
         host: "host.blob.core.windows.net",
         accessKey: "accessKey"      
-    },
-    aws: {
-        provider: "s3",
-        accessKeyId: "accessKeyId",
-        secretAccessKey: "secretAccessKey",
-        bucket: "bucket",
-        region: "region"
     }
 };
 
