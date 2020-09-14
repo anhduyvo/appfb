@@ -3,7 +3,7 @@ const dbContext = require('../lib/dbContext');
 const Factory = function () {
 }
 
-Factory.prototype.getProducts = async function (query) {
+Factory.getProducts = async function (query) {
     try
     {
         let PageCurrent = parseInt(query.PageCurrent) - 1;
@@ -39,10 +39,10 @@ Factory.prototype.getProducts = async function (query) {
     }
 }
 
-Factory.prototype.getProductById = async function (query) {
+Factory.getProductById = async function (query) {
     try
     {
-        var sql = `
+        let sql = `
             SELECT  P.ProductId, P.ProductKey, P.ProductName, P.SizeList, P.Description, 
                     P.BrandId, B.BrandName,
                     P.Price, P.ColorCode, P.Created, P.Status, P.LatestReviewInfo, P.ProductImage 
@@ -60,7 +60,7 @@ Factory.prototype.getProductById = async function (query) {
 }
 
 // most liked: 3 latest product by Updated
-Factory.prototype.getProductMostLiked = async function () {
+Factory.getProductMostLiked = async function () {
     try
     {
         var sql = `
@@ -79,7 +79,7 @@ Factory.prototype.getProductMostLiked = async function () {
     }
 }
 
-Factory.prototype.getProductByKey = function (query) {
+Factory.getProductByKey = function (query) {
 	var sql = `
 		SELECT  P.ProductId, P.ProductKey, P.ProductName, P.SizeList, P.Description, 
 				P.BrandId, B.BrandName,
@@ -92,7 +92,7 @@ Factory.prototype.getProductByKey = function (query) {
 	return dbContext.queryItem(sql, { ProductKey: query.ProductKey });
 }
 
-Factory.prototype.getProductsByBrand = async function (query) {
+Factory.getProductsByBrand = async function (query) {
     try
     {
         let PageCurrent = parseInt(query.PageCurrent) - 1;
@@ -123,7 +123,7 @@ Factory.prototype.getProductsByBrand = async function (query) {
         let data = await dbContext.queryList(sql, { 
             BrandId: parseInt(query.BrandId)
         });
-
+        
         let result = {
             HitsTotal: parseInt(totalRows),
             PageTotal: parseInt(Math.ceil(totalRows / PageSize)),
@@ -138,7 +138,7 @@ Factory.prototype.getProductsByBrand = async function (query) {
     }
 }
 
-Factory.prototype.createReview = async function (review) {
+Factory.createReview = async function (review) {
     try
     {
         var sqlCreateReview = `
@@ -164,7 +164,7 @@ Factory.prototype.createReview = async function (review) {
     }
 }
 
-Factory.prototype.create = async function (product) {
+Factory.create = async function (product) {
     try
     {
         let sql = `
@@ -178,7 +178,7 @@ Factory.prototype.create = async function (product) {
     }
 }
 
-Factory.prototype.update = async function (product) {
+Factory.update = async function (product) {
     try
     {
         let sql = `
@@ -197,7 +197,7 @@ Factory.prototype.update = async function (product) {
     }
 }
 
-Factory.prototype.saveImage = async function (productId, productImage) {
+Factory.saveImage = async function (productId, productImage) {
     try
     {
         let sql = `UPDATE Product SET ProductImage=:ProductImage WHERE ProductId=:ProductId`;
@@ -208,7 +208,7 @@ Factory.prototype.saveImage = async function (productId, productImage) {
     }
 }
 
-Factory.prototype.delete = async function (productId) {
+Factory.delete = async function (productId) {
     try
     {
         let sql = `UPDATE Product SET Deleted = 1 WHERE ProductId=:ProductId`;
@@ -219,7 +219,7 @@ Factory.prototype.delete = async function (productId) {
     }
 }
 
-Factory.prototype.getCategories = async function () {
+Factory.getCategories = async function () {
     try
     {
         const sql = `SELECT * FROM Category WHERE Deleted <> 1`;
@@ -231,5 +231,4 @@ Factory.prototype.getCategories = async function () {
     }	
 }
 
-// Export
-module.exports = new Factory;
+module.exports = Factory;
