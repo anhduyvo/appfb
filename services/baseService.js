@@ -16,7 +16,7 @@ Factory.getUserList = function(tr) {
 Factory.addUser = function(tr) {
 	let sql = `
 		INSERT INTO [dbo].[User] (UserKey, UserType, UserName, Hash, DisplayName, Email, DateOfBirth, Author, Editor) 
-		VALUES (NEWID(),'USER', 'cashier06', NEWID(),'Cashier01','cashier01@eshop.com','2000-02-02','SYSTEM','SYSTEM');
+		VALUES (NEWID(),'USER', 'cashier88', NEWID(),'Cashier01','cashier01@eshop.com','2000-02-02','SYSTEM','SYSTEM');
 	`;
 	return dbContext.getRequest(tr).query(sql);
 }
@@ -25,10 +25,30 @@ Factory.editUser = function(tr, displayName, email) {
 	let sql = `
 		UPDATE [dbo].[User] 
 		SET DisplayName = N'${displayName}',
-			Email = N'${email}'
+			Email = N'${email}',
+			UserName = N'anhvd'
 		WHERE UserId = 1
 	`;
 	return dbContext.getRequest(tr).query(sql);
+}
+
+Factory.getUsers = function(tr) {
+	let sql = `
+		SELECT 	UserId, UserKey, UserType, UserName, DisplayName, Email, Mobile, Title, Description, DateOfBirth 
+		FROM User 
+		WHERE Deleted = 0 
+		ORDER BY UserId DESC
+	`;
+	return dbContext.queryList(tr, sql);
+}
+
+Factory.getUserById = function (tr, userId) {
+	let sql = `
+		SELECT 	UserId, UserKey, UserType, UserName, DisplayName, Email, Mobile, Title, Description, DateOfBirth 
+		FROM User 
+		WHERE UserId =:UserId
+	`;	
+	return dbContext.queryItem(tr, sql, { UserId: userId });
 }
 
 module.exports = Factory;

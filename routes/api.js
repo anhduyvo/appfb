@@ -37,6 +37,7 @@ router.get('/transaction', async function (req, res, next) {
 
 		let data1 = await baseService.addUser(tr);
 		let data2 = await baseService.editUser(tr, 'VO DUY ANH', 'anhvd@csc.com');
+		let data4 = await baseService.addUser(tr);
 		let data3 = await baseService.getUserList(tr);
 
 		await tr.commit();
