@@ -2,7 +2,7 @@
 const _ = require('lodash');
 const multer = require('multer');
 const moment = require('moment');
-const auth = require('../config/auth');
+const auth = require('./auth');
 const CONSTANTS = require('../lib/constants');
 const userService = require('../services/userService');
 

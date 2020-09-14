@@ -4,8 +4,7 @@ const cors = require('cors');
 const multer = require('multer');
 const moment = require('moment');
 const excel = require('../lib/excelHelper');
-
-const auth = require('../config/auth');
+const auth = require('./auth');
 const CONSTANTS = require('../lib/constants');
 const brandService = require('../services/brandService');
 const productService = require('../services/productService');

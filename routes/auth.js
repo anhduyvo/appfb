@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const config = require('../config/config');
+const config = require('../config');
 const userService = require('../services/userService');
 
 const auth = {};

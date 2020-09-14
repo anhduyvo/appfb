@@ -7,6 +7,10 @@ var db_mssql = {
     server: 'server',
     database: 'database',
     port: 1433,
+    options: {
+        enableArithAbort: true,
+        encrypt: true
+    },
     pool: {
         max: 10,
         min: 2,

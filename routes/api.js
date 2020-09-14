@@ -2,28 +2,53 @@ const router = require('express').Router();
 const cors = require('cors')
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const dbContext =require('../lib/dbContext');
 const auth = require('./auth');
-const config = require('../config/config');
-const { uploadProductImageFS } = require('../lib/uploadFile');
+const config = require('../config');
+const { uploadProductImageFs } = require('../lib/uploadFile');
+const baseService = require('../services/baseService');
 
 // routes for testing
-router.get('/', function (req, res, next) {
-    res.json({ code: 'SUCCESS', message: 'request GET is success' });
+router.get('/status', function (req, res, next) {
+    res.json({ status: true, message: 'request GET is success' });
     next();
 });
 
-router.post('/', function (req, res, next) {
-    res.json({ code: 'SUCCESS', message: 'request POST is success' });
+router.post('/status', function (req, res, next) {
+    res.json({ status: true, message: 'request POST is success', body: req.body });
     next();
 });
 
-router.put('/', function (req, res, next) {
-    res.json({ code: 'SUCCESS', message: 'request PUT is success' });
-    next();
+router.get('/connection', async function (req, res, next) {
+	try {
+		let status = await dbContext.connect();		
+		return res.json({ status: status });
+	} catch(err) {
+		next(err);
+	}	
+});
+
+router.get('/transaction', async function (req, res, next) {
+	let tr;
+	try 
+	{
+		tr = await dbContext.getTransaction();
+		await tr.begin();
+
+		let data1 = await baseService.addUser(tr);
+		let data2 = await baseService.editUser(tr, 'VO DUY ANH', 'anhvd@csc.com');
+		let data3 = await baseService.getUserList(tr);
+
+		await tr.commit();
+		return res.json({ status: true, data: data3 });
+	} catch(err) {
+		if(tr) await tr.rollback();
+		next(err);
+	}	
 });
 
 router.get('/newsfeed', cors(), function (req, res, next){
-	res.status(200).json({ code: 'SUCCESS', message: 'request newsfeed with CORS is success.' });
+	res.status(200).json({ status: true, message: 'request newsfeed with CORS is success.' });
 	next();
 });
 
@@ -56,7 +81,7 @@ router.post('/authenticate', function (req, res, next) {
 	})(req, res, next);
 });
 
-router.post('/upload', auth.checkAuthentication(), uploadProductImageFS, async function(req, res, next){
+router.post('/upload', auth.checkAuthentication(), uploadProductImageFs, async function(req, res, next){
 	try
 	{
 		// req.file is the `ProductImage` file
@@ -78,5 +103,4 @@ router.post('/upload', auth.checkAuthentication(), uploadProductImageFS, async f
 	}
 });
 
-// return Router
 module.exports = router;

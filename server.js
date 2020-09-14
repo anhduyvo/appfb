@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var methodOverride = require('method-override');
 var auth = require('./routes/auth');
-var config = require('./config/config');
+var config = require('./config');
 var common = require('./lib/common');
 
 // Express
@@ -18,17 +18,17 @@ server.use(expressSession({ secret: config.secretKey, resave: true, saveUninitia
 
 // setup Server
 auth.setup(server);
-server.set('port', process.env.PORT || 80);
+server.set('port', process.env.PORT || 3000);
 server.set('secretKey', config.secretKey);
 
 // Register APIs
 server.use('/api', require('./routes/api'));
-//server.use('/api/brand', require('./routes/brand'));
-//server.use('/api/category', require('./routes/category'));
-//server.use('/api/product', require('./routes/product'));
-//server.use('/api/customer', require('./routes/customer'));
-//server.use('/api/user', require('./routes/user'));
-//server.use('/api/review', require('./routes/review'));
+server.use('/api/brand', require('./routes/brand'));
+server.use('/api/category', require('./routes/category'));
+server.use('/api/product', require('./routes/product'));
+server.use('/api/customer', require('./routes/customer'));
+server.use('/api/user', require('./routes/user'));
+server.use('/api/review', require('./routes/review'));
 
 var pathUploads = path.join(__dirname, 'uploads');
 server.use('/uploads', express.static(pathUploads));
