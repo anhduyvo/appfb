@@ -127,9 +127,9 @@ router.get('/fe/item', cors(), async function (req, res, next) {
  */
 router.get('/fe/mostliked', cors(), async function (req, res, next) {
 	try
-	{		
-		let query = _.pick(req.query, ['PageCurrent', 'PageSize']);		
+	{
 		let data = await productService.getProductMostLiked();
+		console.log(data);
 		res.status(200).json(data);
 	}
 	catch(err){

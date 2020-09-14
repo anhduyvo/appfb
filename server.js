@@ -44,10 +44,10 @@ server.use(function (err, req, res, next) {
 
 /**
  *   register eshop:
- * - public site: angular js & multiple pages
+ * - client site: angular js & multiple pages
  * - admin site : angular js & single page
  */
-var pathPublic = path.join(__dirname, '../public/src/');
+var pathPublic = path.join(__dirname, './client/src/');
 server.use('/', express.static(pathPublic, { index: 'index.html' }));
 server.use('/index', express.static(pathPublic, { index: 'index.html' }));
 server.use('/product', express.static(pathPublic, { index: 'thestore.html' }));
@@ -55,7 +55,7 @@ server.use('/product/:productKey', express.static(pathPublic, { index: 'productd
 server.use('/search', express.static(pathPublic, { index: 'search.html' }));
 server.use('/contact', express.static(pathPublic, { index: 'contact.html' }));
 
-var pathAdmin = path.join(__dirname, '../admin/src/');
+var pathAdmin = path.join(__dirname, './admin/src/');
 server.use('/admin', express.static(pathAdmin, { index: 'index.html' }));
 server.use('/app', express.static(path.join(pathAdmin, 'app')));
 server.use('/img', express.static(path.join(pathAdmin, 'img')));

@@ -6,8 +6,6 @@ const Factory = function () {
 Factory.prototype.getProducts = async function (query) {
     try
     {
-        let TotalSize = 0;
-        let PageTotal = 0;
         let PageCurrent = parseInt(query.PageCurrent) - 1;
         let PageSize = parseInt(query.PageSize);
         let PageOffset = PageCurrent * PageSize;
@@ -24,9 +22,8 @@ Factory.prototype.getProducts = async function (query) {
             FROM Product P
             WHERE P.Deleted <> 1
             ORDER BY P.ProductId ${OrderBy}
-            LIMIT :Offset, :Limit
         `;
-        let data = await dbContext.queryList(sqlQuery, { Offset: PageOffset, Limit: PageSize });
+        let data = await dbContext.queryList(sqlQuery);
         
         let result = {
             HitsTotal: parseInt(totalRows),
@@ -67,13 +64,13 @@ Factory.prototype.getProductMostLiked = async function () {
     try
     {
         var sql = `
-            SELECT  P.ProductId, P.ProductKey, P.ProductName, P.SizeList, P.Description, 
+            SELECT  TOP 3 
+                    P.ProductId, P.ProductKey, P.ProductName, P.SizeList, P.Description, 
                     P.BrandId, B.BrandName,
                     P.Price, P.ColorCode, P.Created, P.Status, P.LatestReviewInfo, P.ProductImage 
             FROM Product P INNER JOIN Brand B ON P.BrandId = B.BrandId 
             WHERE   B.Deleted <> 1  AND P.Deleted <> 1
             ORDER BY P.Updated DESC
-            LIMIT 3
         `;
         return dbContext.queryList(sql);
     }
@@ -98,8 +95,6 @@ Factory.prototype.getProductByKey = function (query) {
 Factory.prototype.getProductsByBrand = async function (query) {
     try
     {
-        let TotalSize = 0;
-        let PageTotal = 0;
         let PageCurrent = parseInt(query.PageCurrent) - 1;
         let PageSize = parseInt(query.PageSize);
         let PageOffset = PageCurrent * PageSize;
@@ -124,9 +119,10 @@ Factory.prototype.getProductsByBrand = async function (query) {
                 AND B.Deleted <> 1 
                 AND P.Deleted <> 1 
             ORDER BY P.ProductId DESC
-            LIMIT :Offset, :Limit
         `;
-        let data = await dbContext.queryList(sql, { BrandId: parseInt(query.BrandId), Offset: PageOffset, Limit: PageSize });
+        let data = await dbContext.queryList(sql, { 
+            BrandId: parseInt(query.BrandId)
+        });
 
         let result = {
             HitsTotal: parseInt(totalRows),
