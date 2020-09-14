@@ -23,39 +23,18 @@ server.set('secretKey', config.secretKey);
 
 // Register APIs
 server.use('/api', require('./routes/api'));
-server.use('/api/account', require('./routes/account'));
 server.use('/api/brand', require('./routes/brand'));
 server.use('/api/category', require('./routes/category'));
 server.use('/api/product', require('./routes/product'));
 server.use('/api/customer', require('./routes/customer'));
 server.use('/api/user', require('./routes/user'));
-server.use('/api/group', require('./routes/group'));
-server.use('/api/inventory', require('./routes/inventory'));
 server.use('/api/review', require('./routes/review'));
-server.use('/api/transaction', require('./routes/transaction'));
-
-server.use('/api/search', require('./routes/search'));
-server.use('/api/report', require('./routes/report'));
 
 var pathUploads = path.join(__dirname, 'uploads');
 server.use('/uploads', express.static(pathUploads));
 
-
-
 /**
- * Allow CORS: https://jonathanmh.com/how-to-enable-cors-in-express-js-node-js/
- * this is middleware to allow cors requests
- */
-// server.use(function(req, res, next) {
-// 	res.header("Access-Control-Allow-Origin", "*");
-// 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-// 	next();
-// });
-
-
-/**
- * Error Handling
- * this is middleware to handle error
+ * Error Handling: middleware to handle error
  */
 server.use(function (err, req, res, next) {
 	res.status(500);
@@ -64,7 +43,7 @@ server.use(function (err, req, res, next) {
 
 
 /**
- *   register estore:
+ *   register eshop:
  * - public site: angular js & multiple pages
  * - admin site : angular js & single page
  */
@@ -82,6 +61,4 @@ server.use('/app', express.static(path.join(pathAdmin, 'app')));
 server.use('/img', express.static(path.join(pathAdmin, 'img')));
 server.use('/libs', express.static(path.join(pathAdmin, 'libs')));
 
-
-// export
 module.exports = server;
