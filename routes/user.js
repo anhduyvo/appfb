@@ -4,6 +4,7 @@ const multer = require('multer');
 const moment = require('moment');
 const auth = require('./auth');
 const CONSTANTS = require('../lib/constants');
+const baseService = require('../services/baseService');
 const userService = require('../services/userService');
 
 // upload file config
@@ -32,12 +33,7 @@ router.post('/upload', auth.checkAuthentication(), uploadUserImage(), async func
 router.get('/items', auth.checkAuthentication(), async function (req, res, next) {
     try
     {
-        let query = _.pick(req.query, ['PageCurrent', 'PageSize']);
-        if(!query.PageCurrent && !query.PageSize){
-			query.PageCurrent = 1;
-			query.PageSize = 5000;			
-        }
-        let users = await userService.getUsers(query);
+        let users = await baseService.getUsers();
         res.status(200).json(users);
     }
     catch(err){
@@ -86,14 +82,11 @@ router.post('/create', auth.checkAuthentication(), async function (req, res, nex
     {
         let user = _.pick(req.body, ['UserName','Password','DisplayName','ImageKey','Email','Mobile','Tel','Title','DateOfBirth','Description']);
         if(!user.UserName || !user.Password)
-            throw { code: 'MISSING_REQUIRED_FIELD', message: 'missing required field: UserName or Password' }
-
-        // if(!user.Password)
-        //     throw { code: 'MISSING_REQUIRED_FIELD', message: 'missing required field: Password' };
-            
+            throw { code: 'MISSING_REQUIRED_FIELD', message: 'missing required field: UserName or Password' }        
+        
         if(user.DateOfBirth)
             user.DateOfBirth = moment(user.DateOfBirth).format('YYYY-MM-DD');
-
+        
         let result = await userService.create(user);
         if(result.affectedRows > 0) 
             res.status(200).json({ InsertId: result.insertId, success: true });
@@ -114,7 +107,7 @@ router.post('/update', auth.checkAuthentication(), async function (req, res, nex
         
         if(!user.UserName)
             throw { code: 'MISSING_REQUIRED_FIELD', message: 'missing required field: UserName' }
-
+        
         if(!user.UserId){
             us = await userService.getUserByKey(user.UserKey);
             if(!us)
@@ -125,7 +118,7 @@ router.post('/update', auth.checkAuthentication(), async function (req, res, nex
 
         if(user.DateOfBirth)
             user.DateOfBirth = moment(user.DateOfBirth).format('YYYY-MM-DD');
-
+        
         let result = await userService.update(user);
         if(result.affectedRows > 0) 
             res.status(200).json({ success: true });
