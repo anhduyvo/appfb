@@ -71,7 +71,6 @@ router.get('/items', auth.checkAuthentication(), async function (req, res, next)
 			query.PageCurrent = 1;
 			query.PageSize = 5000;
 		}
-
 		let data = await productService.getProducts(query);
 		res.status(200).json(data);
 	}
@@ -93,7 +92,6 @@ router.get('/fe/items', cors(), async function (req, res, next) {
 			query.PageCurrent = 1;
 			query.PageSize = 5000;
 		}
-
 		let data = await productService.getProducts(query);
 		res.status(200).json(data);
 	}
@@ -113,8 +111,8 @@ router.get('/fe/item', cors(), async function (req, res, next) {
 		if(!query.ProductKey){
 			throw { code: 'MISSING_REQUIRED_FIELD', message: 'missing required field: ProductKey' }
 		}
-
 		let data = await productService.getProductByKey(query);
+		console.log(data);
 		res.status(200).json(data);
 	}
 	catch(err){
@@ -129,7 +127,6 @@ router.get('/fe/mostliked', cors(), async function (req, res, next) {
 	try
 	{
 		let data = await productService.getProductMostLiked();
-		console.log(data);
 		res.status(200).json(data);
 	}
 	catch(err){
@@ -146,8 +143,8 @@ router.get('/item', auth.checkAuthentication(), async function (req, res, next) 
 	{
 		let query = _.pick(req.query, ['ProductId', 'ProductKey']);
 		let products;
-		if(query.ProductId)		
-			 products = await productService.getProductById(query);
+		if(query.ProductId)
+			products = await productService.getProductById(query);
 		else if(query.ProductKey)
 			products = await productService.getProductByKey(query);
 		res.status(200).json(products);

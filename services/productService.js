@@ -61,35 +61,27 @@ Factory.getProductById = async function (query) {
 
 // most liked: 3 latest product by Updated
 Factory.getProductMostLiked = async function () {
-    try
-    {
-        var sql = `
-            SELECT  TOP 3 
-                    P.ProductId, P.ProductKey, P.ProductName, P.SizeList, P.Description, 
-                    P.BrandId, B.BrandName,
-                    P.Price, P.ColorCode, P.Created, P.Status, P.LatestReviewInfo, P.ProductImage 
-            FROM Product P INNER JOIN Brand B ON P.BrandId = B.BrandId 
-            WHERE   B.Deleted <> 1  AND P.Deleted <> 1
-            ORDER BY P.Updated DESC
-        `;
-        return dbContext.queryList(sql);
-    }
-    catch(err){
-        throw err;
-    }
+    var sql = `
+        SELECT  TOP 3 
+                P.ProductId, P.ProductKey, P.ProductName, P.SizeList, P.Description, 
+                P.BrandId, B.BrandName,
+                P.Price, P.ColorCode, P.Created, P.Status, P.LatestReviewInfo, P.ProductImage 
+        FROM Product P INNER JOIN Brand B ON P.BrandId = B.BrandId 
+        WHERE   B.Deleted <> 1  AND P.Deleted <> 1
+        ORDER BY P.Updated DESC
+    `;
+    return dbContext.queryList(sql);    
 }
 
 Factory.getProductByKey = function (query) {
 	var sql = `
-		SELECT  P.ProductId, P.ProductKey, P.ProductName, P.SizeList, P.Description, 
-				P.BrandId, B.BrandName,
-		        P.Price, P.ColorCode, P.Created, P.Status, P.LatestReviewInfo, P.ProductImage 
+        SELECT  TOP 1
+                P.ProductId, P.ProductKey, P.ProductName, P.SizeList, P.Description, 
+				P.BrandId, B.BrandName, P.Price, P.ColorCode, P.Created, P.Status, P.LatestReviewInfo, P.ProductImage
 		FROM Product P INNER JOIN Brand B ON P.BrandId = B.BrandId 
-        WHERE   P.ProductKey =:ProductKey
-            AND B.Deleted <> 1
-            AND P.Deleted <> 1
+        WHERE   P.ProductKey = '${query.ProductKey}'
     `;
-	return dbContext.queryItem(sql, { ProductKey: query.ProductKey });
+	return dbContext.queryItem(sql);
 }
 
 Factory.getProductsByBrand = async function (query) {
@@ -103,26 +95,25 @@ Factory.getProductsByBrand = async function (query) {
         let sqlTotal = `
             SELECT  COUNT(P.ProductId) AS Total
             FROM Product P INNER JOIN Brand B ON P.BrandId = B.BrandId
-            WHERE   B.BrandId =:BrandId 
+            WHERE   B.BrandId = ${parseInt(query.BrandId)}
                 AND B.Deleted <> 1 
-                AND P.Deleted <> 1 
-            ORDER BY P.ProductId DESC            
+                AND P.Deleted <> 1             
         `;
-        let totalRows = (await dbContext.queryItem(sqlTotal, { BrandId: parseInt(query.BrandId) })).Total;
+        let totalRows = (await dbContext.queryItem(sqlTotal, {
+            BrandId: parseInt(query.BrandId)
+        })).Total;
 
         let sql = `
             SELECT  P.ProductId, P.ProductKey, P.ProductName, P.SizeList, P.Description, 
                     P.Price, P.ColorCode, P.Created, P.Status,
                     P.BrandId, B.BrandName, P.LatestReviewInfo, P.ProductImage 
             FROM Product P INNER JOIN Brand B ON P.BrandId = B.BrandId
-            WHERE   B.BrandId =:BrandId 
+            WHERE   B.BrandId = ${parseInt(query.BrandId)} 
                 AND B.Deleted <> 1 
                 AND P.Deleted <> 1 
             ORDER BY P.ProductId DESC
         `;
-        let data = await dbContext.queryList(sql, { 
-            BrandId: parseInt(query.BrandId)
-        });
+        let data = await dbContext.queryList(sql);
         
         let result = {
             HitsTotal: parseInt(totalRows),
