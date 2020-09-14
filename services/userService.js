@@ -5,8 +5,7 @@ const dbContext = require('../lib/dbContext');
 const Factory = function () {
 }
 
-Factory.prototype.getUsers = function(query){
-	// No need pagination
+Factory.prototype.getUsers = function(query) {
 	let sql = `
 		SELECT 	UserId, UserKey, UserType, UserName, DisplayName, Email, Mobile, Title, Description, DateOfBirth 
 		FROM User 

@@ -19,7 +19,7 @@ auth.setup = function (app) {
                 };
                 return done(null, data);
             }
-            catch(err){
+            catch(err) {
                 return done(err);
             }
         }

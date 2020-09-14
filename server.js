@@ -23,12 +23,12 @@ server.set('secretKey', config.secretKey);
 
 // Register APIs
 server.use('/api', require('./routes/api'));
-server.use('/api/brand', require('./routes/brand'));
-server.use('/api/category', require('./routes/category'));
-server.use('/api/product', require('./routes/product'));
-server.use('/api/customer', require('./routes/customer'));
-server.use('/api/user', require('./routes/user'));
-server.use('/api/review', require('./routes/review'));
+//server.use('/api/brand', require('./routes/brand'));
+//server.use('/api/category', require('./routes/category'));
+//server.use('/api/product', require('./routes/product'));
+//server.use('/api/customer', require('./routes/customer'));
+//server.use('/api/user', require('./routes/user'));
+//server.use('/api/review', require('./routes/review'));
 
 var pathUploads = path.join(__dirname, 'uploads');
 server.use('/uploads', express.static(pathUploads));
