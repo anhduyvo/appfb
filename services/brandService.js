@@ -9,7 +9,7 @@ Factory.getList = async function (query) {
         let PageCurrent = parseInt(query.PageCurrent) - 1;
         let PageSize = parseInt(query.PageSize);
 		let PageOffset = PageCurrent * PageSize;
-		
+
 		// get hits total
         let sqlTotal = `
 			SELECT COUNT(*) AS Total
@@ -17,7 +17,7 @@ Factory.getList = async function (query) {
 			WHERE Deleted <> 1
 		`;
 		let totalRows = (await dbContext.queryItem(sqlTotal)).Total;
-		
+
 		// get data
 		let sqlQuery = `
 			SELECT BrandId, BrandKey, BrandName, Description
@@ -102,7 +102,8 @@ Factory.update = function (brand) {
 
 Factory.delete = async function (brandId) {
 	let tr;
-	try {
+	try 
+	{
 		tr = await dbContext.getTransaction();
 		await tr.begin();
 
