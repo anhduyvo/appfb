@@ -9,7 +9,7 @@ Factory.getList = async function (query) {
         let PageCurrent = parseInt(query.PageCurrent) - 1;
         let PageSize = parseInt(query.PageSize);
 		let PageOffset = PageCurrent * PageSize;
-		
+
 		// get hits total
         let sqlTotal = `
 			SELECT COUNT(*) AS Total
@@ -17,7 +17,7 @@ Factory.getList = async function (query) {
 			WHERE Deleted <> 1
 		`;
 		let totalRows = (await dbContext.queryItem(sqlTotal)).Total;
-		
+
 		// get data
 		let sqlQuery = `
 			SELECT BrandId, BrandKey, BrandName, Description
@@ -100,9 +100,25 @@ Factory.update = function (brand) {
 	return dbContext.queryExecute(sql, brand);
 }
 
-Factory.delete = function (brand) {
-	let sql = `UPDATE Brand SET Deleted = 1 WHERE BrandId=:BrandId`;
-	return dbContext.queryExecute(sql, brand);
+Factory.delete = async function (brandId) {
+	let tr;
+	try 
+	{
+		tr = await dbContext.getTransaction();
+		await tr.begin();
+
+		let sql1 = `UPDATE Brand SET Deleted = 1 WHERE BrandId = '${brandId}'`;
+		let res1 = await dbContext.queryTransaction(tr, sql1);
+
+		let sql2 = `UPDATE Product SET Deleted = 1 WHERE BrandId = '${brandId}'`;
+		let res2 = await dbContext.queryTransaction(tr, sql2);
+
+		await tr.commit();
+		return { res1, res2 };
+	} catch (err) {
+		if(tr) tr.rollback();
+		throw err;
+	}
 }
 
 module.exports = Factory;

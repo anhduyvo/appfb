@@ -5,7 +5,7 @@ const dbContext = require('../lib/dbContext');
 const Factory = function () {
 }
 
-Factory.prototype.getUserByKey = function (query) {
+Factory.getUserByKey = function (query) {
 	let sql = `
 		SELECT 	UserId, UserKey, UserType, UserName, DisplayName, Email, Mobile, Title, Description, DateOfBirth 
 		FROM User 
@@ -14,7 +14,7 @@ Factory.prototype.getUserByKey = function (query) {
 	return dbContext.queryItem(sql, { UserKey: query.UserKey });
 }
 
-Factory.prototype.getUserByName = function (query) {
+Factory.getUserByName = function (query) {
 	let	sql = `
 		SELECT UserId, UserKey, UserType, UserName, DisplayName, Email, Mobile, Title, Description, DateOfBirth 
 		FROM User 
@@ -23,7 +23,7 @@ Factory.prototype.getUserByName = function (query) {
 	return dbContext.queryItem(sql, { UserName: query.UserName });
 }
 
-Factory.prototype.getUserByEmail = function (email) {
+Factory.getUserByEmail = function (email) {
 	let sql = `
 		SELECT UserId, UserKey, UserType, UserName, DisplayName, Email, Mobile, Title, Description, DateOfBirth
 		FROM User 
@@ -33,7 +33,7 @@ Factory.prototype.getUserByEmail = function (email) {
 }
 
 
-Factory.prototype.authenticate = async function (username, password) {
+Factory.authenticate = async function (username, password) {
 	try
 	{
 		if(!username)
@@ -62,18 +62,26 @@ Factory.prototype.authenticate = async function (username, password) {
 	}
 }
 
-Factory.prototype.changePassword = async function (userId, hash) {
+Factory.changePassword = async function (userId, hash) {
+	let tr;
 	try
 	{
-		let sql = 'UPDATE User SET Hash=:Hash WHERE UserId=:UserId';
-		return dbContext.queryExecute(sql,{ UserId: userId, Hash: hash });
+		tr = await dbContext.getTransaction();
+		await tr.begin();
+		
+		let sql = 'UPDATE User SET Hash = @Hash WHERE UserId = @UserId';
+		let res = await dbContext.queryExecute(tr, sql,{ UserId: userId, Hash: hash });
+		
+		await tr.commit();
+		return res
 	}
-	catch(err){
+	catch(err) {
+		if(tr) tr.rollback();
 		throw err;
 	}
 }
 
-Factory.prototype.create = async function (user) {
+Factory.create = async function (user) {
 	try
 	{
 		user.Hash = common.encoded(user.UserName);
@@ -89,7 +97,7 @@ Factory.prototype.create = async function (user) {
 	}	
 }
 
-Factory.prototype.update = async function (user) {
+Factory.update = async function (user) {
 	try
 	{
 		var sql = `
@@ -110,15 +118,9 @@ Factory.prototype.update = async function (user) {
 	}
 }
 
-Factory.prototype.delete = async function (userId) {
-	try
-	{
-		var sql = `UPDATE User SET Deleted=1 WHERE UserId=:UserId`;
-		return dbContext.queryExecute(sql, {UserId: userId});
-	}
-	catch(err){
-		throw err;
-	}
+Factory.delete = async function (userId) {	
+	var sql = `UPDATE User SET Deleted=1 WHERE UserId=:UserId`;
+	return dbContext.queryExecute(sql, {UserId: userId});
 }
 
-module.exports = new Factory;
+module.exports = Factory;
