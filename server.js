@@ -1,4 +1,5 @@
-﻿var express = require('express');
+﻿require('dotenv').config();
+var express = require('express');
 var expressSession = require('express-session');
 var path = require("path");
 var bodyParser = require('body-parser');
@@ -7,7 +8,6 @@ var methodOverride = require('method-override');
 var auth = require('./routes/auth');
 var config = require('./config');
 var common = require('./lib/common');
-require('dotenv');
 
 // Express
 var server = express();

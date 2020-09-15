@@ -6,7 +6,7 @@ var db_mssql = {
     password: 'password',
     server: 'server',
     database: 'database',
-    port: 1433,
+    port: 'port',
     options: {
         enableArithAbort: true,
         encrypt: true
