@@ -3,7 +3,7 @@ const dbContext = require('../lib/dbContext');
 const Factory = function () { 
 }
 
-Factory.prototype.getList = async function (query) {
+Factory.getList = async function (query) {
 	try
 	{		
 		let TotalSize = 0;
@@ -26,11 +26,12 @@ Factory.prototype.getList = async function (query) {
 			FROM Customer
 			WHERE Deleted <> 1
 			ORDER BY CustomerId DESC
-			LIMIT :Offset, :Limit
+			OFFSET (@PageOffset) ROWS
+            FETCH NEXT @PageSize ROWS ONLY
 		`;
 		let data = await dbContext.queryList(sqlQuery, {
-			Offset: PageOffset,
-            Limit: PageSize
+			PageOffset: PageOffset,
+            PageSize: PageSize
 		});
 
 		let result = {
@@ -47,7 +48,7 @@ Factory.prototype.getList = async function (query) {
 	}	
 }
 
-Factory.prototype.getCustomerById = async function (query) {
+Factory.getCustomerById = async function (query) {
 	try
 	{
 		var sql = `
@@ -62,7 +63,7 @@ Factory.prototype.getCustomerById = async function (query) {
 	}	
 }
 
-Factory.prototype.getCustomerByKey = async function (query) {
+Factory.getCustomerByKey = async function (query) {
 	try
 	{
 		var sql = `
@@ -77,7 +78,7 @@ Factory.prototype.getCustomerByKey = async function (query) {
 	}	
 }
 
-Factory.prototype.create = async function (customer) {
+Factory.create = async function (customer) {
 	try
 	{
 		var sql = `
@@ -91,7 +92,7 @@ Factory.prototype.create = async function (customer) {
 	}	
 }
 
-Factory.prototype.update = async function (customer) {
+Factory.update = async function (customer) {
 	try
 	{
 		var sql = `
@@ -115,7 +116,7 @@ Factory.prototype.update = async function (customer) {
 	}
 }
 
-Factory.prototype.delete = async function (customerId) {
+Factory.delete = async function (customerId) {
 	try
 	{
 		var sql = `UPDATE Customer SET Deleted = 1 WHERE CustomerId =:CustomerId`;
@@ -126,5 +127,4 @@ Factory.prototype.delete = async function (customerId) {
 	}
 }
 
-// Export
-module.exports = new Factory;
+module.exports = Factory;

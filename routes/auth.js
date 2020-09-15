@@ -1,15 +1,13 @@
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const config = require('../config/config');
+const config = require('../config');
 const userService = require('../services/userService');
 
 const auth = {};
 auth.setup = function (app) {
-
     app.use(passport.initialize());
     app.use(passport.session());
-
     passport.use(new LocalStrategy(
         async function (username, password, done) {
             try
@@ -21,7 +19,7 @@ auth.setup = function (app) {
                 };
                 return done(null, data);
             }
-            catch(err){
+            catch(err) {
                 return done(err);
             }
         }

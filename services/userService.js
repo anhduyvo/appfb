@@ -1,28 +1,8 @@
-﻿const common = require('../lib/commonlib');
+﻿const common = require('../lib/common');
 const CONSTANTS = require('../lib/constants');
 const dbContext = require('../lib/dbContext');
 
 const Factory = function () {
-}
-
-Factory.prototype.getUsers = function(query){
-	// No need pagination
-	let sql = `
-		SELECT 	UserId, UserKey, UserType, UserName, DisplayName, Email, Mobile, Title, Description, DateOfBirth 
-		FROM User 
-		WHERE Deleted = 0 
-		ORDER BY UserId DESC
-	`;
-	return dbContext.queryList(sql);
-}
-
-Factory.prototype.getUserById = function (query) {
-	let sql = `
-		SELECT 	UserId, UserKey, UserType, UserName, DisplayName, Email, Mobile, Title, Description, DateOfBirth 
-		FROM User 
-		WHERE UserId =:UserId
-	`;
-	return dbContext.queryItem(sql, { UserId: query.UserId });
 }
 
 Factory.prototype.getUserByKey = function (query) {
@@ -141,53 +121,4 @@ Factory.prototype.delete = async function (userId) {
 	}
 }
 
-/** TO DO: deprecated this function */
-Factory.prototype.getMenu = function () {
-	var navigation = [
-		{
-			code: 'cash',
-			name: 'Cash',			
-			childNodes: [
-				{ code: 'cashIn', name: 'Cash In' },
-				{ code: 'cashOut', name: 'Cash Out' },
-				{ code: 'cashReport', name: 'Report' }
-			]
-		},
-		{
-			code: 'inventory',
-			name: 'Inventory',
-			childNodes: [
-				{ code: 'inventoryInput', name: 'Input' },
-				{ code: 'inventoryOutput', name: 'Output' },				
-				{ code: 'inventoryReport', name: 'Report' }
-			]
-		},
-		{
-			code: 'list',
-			name: 'List',
-			childNodes: [
-				{ code: 'brand', name: 'Brand' },
-				{ code: 'product', name: 'Product' },
-				{ code: 'inventory', name: 'Inventory' },
-				{ code: 'account', name: 'Account' },
-				{ code: 'customer', name: 'Customer' },
-				{ code: 'user', name: 'User' },
-				{ code: 'group', name: 'Group' }
-			]
-		},
-		{
-			code: 'help',
-			name: 'Help',
-			clickable: true
-		},
-		{
-			code: 'sample',
-			name: 'Sample',
-			clickable: true
-		}
-	];
-	return navigation;
-}
-
-// Export
 module.exports = new Factory;

@@ -1,10 +1,9 @@
 ﻿var router = require('express').Router();
 var Q = require('q');
-var common = require('../lib/commonlib');
+var common = require('../lib/common');
 var productService = require('../services/productService');
 var userService = require('../services/userService');
 
-// Router
 router.post('/add', function (req, res, next) {
     var review = {
         Rating: req.body.Rating,

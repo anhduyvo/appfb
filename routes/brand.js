@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const _ = require('lodash');
 const cors = require('cors');
-const auth = require('../config/auth');
+const auth = require('./auth');
 const brandService = require('../services/brandService');
 
 // Router
@@ -144,5 +144,4 @@ router.get('/fe/top/items', cors(), async function (req, res, next) {
 	}
 });
 
-// Export
 module.exports = router;

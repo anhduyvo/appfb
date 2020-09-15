@@ -3,7 +3,7 @@
 const Factory = function(){	
 }
 
-Factory.prototype.getList = async function (query) {
+Factory.getList = async function (query) {
 	try
 	{
         let PageCurrent = parseInt(query.PageCurrent) - 1;
@@ -24,11 +24,12 @@ Factory.prototype.getList = async function (query) {
 			FROM Brand
 			WHERE Deleted <> 1
 			ORDER BY BrandId ASC
-			LIMIT :Offset, :Limit
+			OFFSET (@PageOffset) ROWS
+            FETCH NEXT @PageSize ROWS ONLY
 		`;
 		let data = await dbContext.queryList(sqlQuery, {
-			Offset: PageOffset,
-            Limit: PageSize
+			PageOffset: PageOffset,
+            PageSize: PageSize
 		});
 
 		let result = {
@@ -46,7 +47,7 @@ Factory.prototype.getList = async function (query) {
 }
 
 // get top 5 brands: 12,14,15,28,29,30
-Factory.prototype.getTopBrands = async function () {
+Factory.getTopBrands = async function () {
 	try
 	{
 		// top 5 brands
@@ -63,7 +64,7 @@ Factory.prototype.getTopBrands = async function () {
 	}
 }
 
-Factory.prototype.getBrandById = function (query) {
+Factory.getBrandById = function (query) {
 	let sql = `
 		SELECT BrandId, BrandKey, BrandName, Description
 		FROM Brand 
@@ -72,7 +73,7 @@ Factory.prototype.getBrandById = function (query) {
 	return dbContext.queryItem(sql, { BrandId: query.BrandId });
 }
 
-Factory.prototype.getBrandByKey = function (query) {
+Factory.getBrandByKey = function (query) {
 	let sql = `
 		SELECT BrandId, BrandKey, BrandName, Description
 		FROM Brand 
@@ -81,7 +82,7 @@ Factory.prototype.getBrandByKey = function (query) {
 	return dbContext.queryItem(sql, { BrandKey: query.BrandKey });
 }
 
-Factory.prototype.create = function (brand) {
+Factory.create = function (brand) {
 	let sql = `
 		INSERT INTO Brand(BrandKey, BrandName, Description)
 		VALUES(uuid(), :BrandName, :Description)		
@@ -89,7 +90,7 @@ Factory.prototype.create = function (brand) {
 	return dbContext.queryExecute(sql, brand);
 }
 
-Factory.prototype.update = function (brand) {
+Factory.update = function (brand) {
 	let sql = `
 		UPDATE Brand
 		SET BrandName=:BrandName,
@@ -99,10 +100,9 @@ Factory.prototype.update = function (brand) {
 	return dbContext.queryExecute(sql, brand);
 }
 
-Factory.prototype.delete = function (brand) {
+Factory.delete = function (brand) {
 	let sql = `UPDATE Brand SET Deleted = 1 WHERE BrandId=:BrandId`;
 	return dbContext.queryExecute(sql, brand);
 }
 
-// Export
-module.exports = new Factory;
+module.exports = Factory;
