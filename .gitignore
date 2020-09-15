@@ -1,8 +1,7 @@
 node_modules/
 !.gitignore
 
-config/index.js
-config/config.js
+#config/index.js
 
 admin/node_modules/
 
