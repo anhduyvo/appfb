@@ -1,12 +1,9 @@
-var mssql = require('mssql');
-
 var db_mssql = {
-    provider: mssql,
-    user: 'user',
-    password: 'password',
-    server: 'server',
-    database: 'database',
-    port: 'port',
+    user        :'user',
+    password    :'password',
+    server      :'server',
+    database    :'database',
+    port        :'port',
     options: {
         enableArithAbort: true,
         encrypt: true
@@ -21,10 +18,10 @@ var db_mssql = {
 var db_eshop = {
     client: 'mssql',
     connection: {
-        host : 'host', // For docker => docker inspect [containerid]
-        user : 'user',
-        password : 'password',
-        database : 'database',
+        host        :'host', // For docker => docker inspect [containerid]
+        user        :'user',
+        password    :'password',
+        database    :'database',
         options: {
             encrypt: true,
             enableArithAbort: true
@@ -54,6 +51,6 @@ module.exports = {
     db_mssql: db_mssql,
     db_eshop: db_eshop,
     storage: storage,
-    azureAuthenticate: true, // false
+    azureAuthenticate: false,
     secretKey: 'ilovejavascript'
 };
