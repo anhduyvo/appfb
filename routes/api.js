@@ -10,7 +10,11 @@ const baseService = require('../services/baseService');
 
 // routes for testing
 router.get('/status', function (req, res, next) {
-    res.json({ status: true, message: 'request GET is success' });
+    res.json({
+		status: true, 
+		message: 'request GET is success',
+		web_info: process.env.WEB_INFO
+	});
     next();
 });
 
