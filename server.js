@@ -7,6 +7,7 @@ var methodOverride = require('method-override');
 var auth = require('./routes/auth');
 var config = require('./config');
 var common = require('./lib/common');
+require('dotenv');
 
 // Express
 var server = express();
