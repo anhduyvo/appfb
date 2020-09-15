@@ -5,9 +5,7 @@ const Factory = function () {
 
 Factory.getList = async function (query) {
 	try
-	{		
-		let TotalSize = 0;
-        let PageTotal = 0;
+	{
         let PageCurrent = parseInt(query.PageCurrent) - 1;
         let PageSize = parseInt(query.PageSize);
 		let PageOffset = PageCurrent * PageSize;
@@ -107,7 +105,7 @@ Factory.update = async function (customer) {
 				Title=:Title, 				
 				ImageKey=:ImageKey,
 				Description=:Description
-			WHERE CustomerId =:CustomerId
+			WHERE CustomerId = @CustomerId
 		`;
 		return dbContext.queryExecute(sql, customer);
 	}
@@ -119,7 +117,7 @@ Factory.update = async function (customer) {
 Factory.delete = async function (customerId) {
 	try
 	{
-		var sql = `UPDATE Customer SET Deleted = 1 WHERE CustomerId =:CustomerId`;
+		var sql = `UPDATE Customer SET Deleted = 1 WHERE CustomerId = @CustomerId`;
 		return dbContext.queryExecute(sql, { CustomerId: customerId });
 	}
 	catch(err){
