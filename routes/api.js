@@ -26,9 +26,9 @@ router.post('/status', function (req, res, next) {
 router.get('/connection', async function (req, res, next) {
 	try {
 		let status = await dbContext.connect();		
-		return res.json({ status: status });
+		return res.json({ status: status, message: 'SQL DB is connected'});
 	} catch(err) {
-		next(err);
+		next({ code: 404, message: 'Can NOT connect to SQL DB'});
 	}	
 });
 

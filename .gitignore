@@ -1,7 +1,7 @@
 node_modules/
 !.gitignore
 
-#config/index.js
+.env
 
 admin/node_modules/
 

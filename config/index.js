@@ -1,9 +1,9 @@
 var db_mssql = {
-    user        :'user',
-    password    :'password',
-    server      :'server',
-    database    :'database',
-    port        :'port',
+    user        :process.env.SQL_USER,
+    password    :process.env.SQL_PASSWORD,
+    server      :process.env.SQL_SERVER,
+    database    :process.env.SQL_DATABASE,
+    port        :process.env.SQL_PORT,
     options: {
         enableArithAbort: true,
         encrypt: true
@@ -18,15 +18,16 @@ var db_mssql = {
 var db_eshop = {
     client: 'mssql',
     connection: {
-        host        :'host', // For docker => docker inspect [containerid]
-        user        :'user',
-        password    :'password',
-        database    :'database',
+        user        :process.env.SQL_USER,
+        password    :process.env.SQL_PASSWORD,
+        host        :process.env.SQL_SERVER, // For docker => docker inspect [containerid]
+        database    :process.env.SQL_DATABASE,
         options: {
             encrypt: true,
             enableArithAbort: true
         },
     },
+    port: process.env.SQL_PORT,
     pool: {
         min: 0,
         max: 10 
