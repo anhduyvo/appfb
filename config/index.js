@@ -3,7 +3,7 @@ var db_mssql = {
     password    :process.env.SQL_PASSWORD,
     server      :process.env.SQL_SERVER,
     database    :process.env.SQL_DATABASE,
-    port        :process.env.SQL_PORT,
+    //port        :process.env.SQL_PORT,
     options: {
         enableArithAbort: true,
         encrypt: true
@@ -27,7 +27,7 @@ var db_eshop = {
             enableArithAbort: true
         },
     },
-    port: process.env.SQL_PORT,
+    //port: process.env.SQL_PORT,
     pool: {
         min: 0,
         max: 10 
