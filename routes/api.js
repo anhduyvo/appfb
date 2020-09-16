@@ -5,6 +5,7 @@ const passport = require('passport');
 const dbContext =require('../lib/dbContext');
 const auth = require('./auth');
 const config = require('../config');
+const info = require('../package.json');
 const { uploadProductImageFs } = require('../lib/uploadFile');
 const baseService = require('../services/baseService');
 
@@ -13,13 +14,19 @@ router.get('/status', function (req, res, next) {
     res.json({
 		status: true, 
 		message: 'request GET is success',
+		version: info.version,
 		web_info: process.env.WEB_INFO
 	});
     next();
 });
 
 router.post('/status', function (req, res, next) {
-    res.json({ status: true, message: 'request POST is success', body: req.body });
+    res.json({
+		status: true,
+		message: 'request POST is success', 
+		body: req.body,
+		version: info.version
+	});
     next();
 });
 
