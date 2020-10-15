@@ -69,14 +69,7 @@
 
         aishaService.prototype.getClientSay = function () {
             var q = $q.defer();
-            var data = [
-				{
-					
-				},
-				{
-					
-				},
-			];
+            var data = [];
             q.resolve(data);
             return q.promise;
         };
@@ -166,7 +159,7 @@
             var data = {
                 location: 'Ho Chi Minh city',
                 desc: '',
-                email: 'duyanh2005@gmail.com'
+                email: 'voduyanh1984@gmail.com'
             };
             q.resolve(data);
             return q.promise;
