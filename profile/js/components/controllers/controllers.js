@@ -106,8 +106,8 @@
 			// activate
 			activate();				
 		}])	
-	.controller('footerAreaController', ['$scope', '$q', 'appCommon', 'aishaService',
-		function ($scope, $q, appCommon, aishaService) {
+	.controller('footerAreaController', ['$scope', 'aishaService',
+		function ($scope, aishaService) {
 			// declare models & methods
 			var activate = function(){
 				aishaService.getFooter().then(function(result){

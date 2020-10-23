@@ -159,7 +159,7 @@
             var data = {
                 location: 'Ho Chi Minh city',
                 desc: '',
-                email: 'voduyanh1984@gmail.com'
+                email: 'voduyanh1984@yahoo.com'
             };
             q.resolve(data);
             return q.promise;
