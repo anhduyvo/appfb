@@ -157,7 +157,7 @@
         aishaService.prototype.getFooter = function () {
             var q = $q.defer();
             var data = {
-                location: 'Ho Chi Minh city',
+                location: 'Ho Chi Minh city - VIET NAM',
                 desc: '',
                 email: 'voduyanh1984@yahoo.com'
             };
