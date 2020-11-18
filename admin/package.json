@@ -1,0 +1,11 @@
+{
+  "name": "eshop-admin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulp.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "voduyanh",
+  "license": "ISC"
+}
