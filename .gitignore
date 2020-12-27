@@ -1,6 +1,7 @@
 node_modules/
 !.gitignore
 
+.github/*
 .env
 
 admin/node_modules/
