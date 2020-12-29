@@ -1,7 +1,7 @@
 {
   "name": "eshop",
   "version": "1.0.1",
-  "description": "eshop: entrepreneur app",
+  "description": "eshop application",
   "main": "app.js",
   "author": {
     "name": "voduyanh",
