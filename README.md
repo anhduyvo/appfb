@@ -1,4 +1,4 @@
-# demo-eshop: 
+# eshop: 
 - angularjs
 - nodejs
 - expressjs
